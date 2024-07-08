@@ -4,6 +4,12 @@ on:
     branches:
       - main
 
+env:
+  AWS_REGION: ap-northeast-2
+  AWS_S3_BUCKET_NAME: mclass-ins-bucket-1
+  AWS_CODE_DEPLOY_APPLICATION: mclass-ins-cd-1
+  AWS_CODE_DEPLOY_GROUP: mclass-ins-cd-group-1
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -18,5 +24,32 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
+          
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven
+
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn clean package
+
+      - name: Prepare deployment package
+        run: |
+          mkdir -p deploy
+          cp target/*.jar deploy/app.jar
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+      - name: Upload to S3
+        run: aws s3 cp deploy/app.jar s3://${{ env.AWS_S3_BUCKET_NAME }}/app.jar
+
+      #   run: aws deploy push --application-name ${{ env.AWS_CODE_DEPLOY_APPLICATION }} --ignore-hidden-files --s3-location s3://$AWS_S3_BUCKET/cicdtest/$GITHUB_SHA.zip --source .
+      # - name: EC2에 배포
+      #   run: aws deploy create-deployment --application-name ${{ env.AWS_CODE_DEPLOY_APPLICATION }} --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name ${{ env.AWS_CODE_DEPLOY_GROUP }} --s3-location bucket=$AWS_S3_BUCKET,key=cicdtest/$GITHUB_SHA.zip,bundleType=zip
