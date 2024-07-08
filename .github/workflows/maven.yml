@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: touch ./src/main/resources/keyproperties/apikeys.properties
       - run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/keyproperties/apikeys.properties
-      - run: cat ./src/main/resources/application.properties
+      - run: cat ./src/main/resources/keyproperties/apikeys.properties
       - name: Set up JDK 11
         uses: actions/setup-java@v4
         with:
