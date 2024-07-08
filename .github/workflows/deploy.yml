@@ -6,7 +6,7 @@ on:
 
 env:
   AWS_REGION: ap-northeast-2
-  AWS_S3_BUCKET_NAME: mclass-ins-bucket-1
+  S3_BUCKET_NAME: mclass-ins-bucket-1
   AWS_CODE_DEPLOY_APPLICATION: mclass-ins-cd-1
   AWS_CODE_DEPLOY_GROUP: mclass-ins-cd-group-1
 
@@ -14,15 +14,41 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
-      - run: touch ./src/main/resources/keyproperties/apikeys.properties
-      - run: echo "${{ secrets.TRIPANT_APPLICATION }}" > ./src/main/resources/keyproperties/apikeys.properties
-      - run: cat ./src/main/resources/keyproperties/apikeys.properties
-      - name: Set up JDK 11
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'temurin'
-          cache: maven
+          distribution: 'adopt'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven
+
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn clean package
+
+      - name: Prepare deployment package
+        run: |
+          mkdir -p deploy
+          cp target/*.jar deploy/app.jar
+          # Inject secrets into application.properties
+          echo "${{ secrets.TRIPANT_APPLICATION }}" >> src/main/resources/application.properties
+          cp src/main/resources/application.properties deploy/application.properties
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Upload to S3
+        run: |
+          aws s3 cp deploy/app.jar s3://${{ env.S3_BUCKET_NAME }}/app.jar
+          aws s3 cp deploy/application.properties s3://${{ env.S3_BUCKET_NAME }}/application.properties
