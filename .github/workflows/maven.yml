@@ -6,15 +6,18 @@ on:
       - main
 
 jobs:
-	build:
-		runs-on: ubuntu-22.04
-		steps:
-			- uses: actions/checkout@v4
-			- name: Set up JDK 11
-				uses: actions/setup-java@v4
-				with:
-					java-version: '17'
-					distribution: 'temurin'
-					cache: maven
-			- name: Build with Maven
-				run: mvn -B package --file pom.xml
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: touch ./src/main/resources/keyproperties/apikeys.properties
+      - run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/keyproperties/apikeys.properties
+      - run: cat ./src/main/resources/application.properties
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
