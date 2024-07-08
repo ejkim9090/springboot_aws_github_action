@@ -16,9 +16,7 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
+      - uses: actions/checkout@v3
       - run: touch ./src/main/resources/keyproperties/apikeys.properties
       - run: echo "${{ secrets.TRIPANT_APPLICATION }}" > ./src/main/resources/keyproperties/apikeys.properties
       - run: cat ./src/main/resources/keyproperties/apikeys.properties
