@@ -14,12 +14,12 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
       - run: touch ./src/main/resources/keyproperties/apikeys.properties
       - run: echo "${{ secrets.TRIPANT_APPLICATION }}" > ./src/main/resources/keyproperties/apikeys.properties
       - run: cat ./src/main/resources/keyproperties/apikeys.properties
       - name: Set up JDK 11
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
