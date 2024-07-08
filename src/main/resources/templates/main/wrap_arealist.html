@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<div class="wrap-areaList" th:fragment="wraparealist">
+		<ul class="area-box">
+			<th:block  th:if="${areaNameList} != null">
+				<th:block  th:each="area : ${areaNameList}">
+					<li>
+						<div class="area_btn" onclick="areaBoxBtnClickHandler(this);"  th:value="${area.areaCode}" >
+							<img th:src="@{|/images/area/${area.areaFileName}|}" alt="지역">
+							<div class="description">
+								<h3 th:text="${area.areaName}"></h3>
+								<h5 th:text="${area.areaEngName}"></h5>
+							</div>
+						</div>
+					</li>
+				</th:block>
+			</th:block>
+		</ul>
+	</div>
+</html>

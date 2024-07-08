@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+
+<div class= "wrap-list" th:fragment="goodsPage">
+	<div class="ad-search">
+				<th:block th:if="${goodsMap!=null and goodsMap.itemCode != null}">
+				<input class="search" type="text"  name="search" placeholder="상품명 검색" th:value="${goodsMap.itemCode}">
+				</th:block>
+				<th:block th:if="${goodsMap==null or  goodsMap.itemCode ==null}">
+				<input class="search" type="text"  name="search" placeholder="상품명 검색">
+				</th:block>
+				<button type="button" class="btn-search" onclick="searchBtnHandler(this);"><img th:src="@{/images/icons/search.png}" alt="검색"/></button>
+			</div>
+			<div class="ad-content">
+				<ul class="memberlist">
+					<li>	
+						<ul class="col">
+							<li>코드</li>
+							<li>이름</li>
+							<li>가격(원)</li>
+							<li>기간(일)</li>
+							<li>할인율(%)</li>
+							<li>테마색상(헥사코드)</li>
+							<li>이미지경로</li>
+							<li><button type="button" class="btn insert"><h5>상품추가</h5></button></li>
+						</ul>
+					</li>
+					
+					<li id="list" th:replace="~{admin/goods_fragment :: goodsList}">
+					</li>
+				</ul>	
+			</div> 
+<!-- paging --> 
+		<div style="text-align: center;">
+			<div class="paging_wrap">
+			<th:block th:if="${goodsMap.totalPageCount > 0}">
+				<div th:if="${goodsMap.startPageNum > 1}" class="goprepage">
+		            <button type="button" onclick="searchBtnHandler(this);" class="btn gopage" th:data-targetpage="${goodsMap.startPageNum - 1}">&lt;</button>
+		        </div>
+		        <div th:each="page :  ${#numbers.sequence(goodsMap.startPageNum, goodsMap.endPageNum)}">
+			        <div th:if="${goodsMap.currentPage == page}" class="current_page">
+			            <button type="button" disabled class="btn gopage" th:data-targetpage="${page}" th:text="${page}"></button>
+			        </div>
+			        <div th:if="${goodsMap.currentPage != page}" class="gopage">
+			            <button type="button" onclick="searchBtnHandler(this);" class="btn gopage" th:data-targetpage="${page}" th:text="${page}"></button>
+			        </div>
+		        </div>
+		        
+		        <div th:if="${goodsMap.endPageNum < goodsMap.totalPageCount}">
+		            <button type="button" onclick="searchBtnHandler(this);" th:data-targetpage="${goodsMap.endPageNum + 1}" class="btn gopage">&gt;</button>
+		        </div>	
+		        </th:block>		
+			</div>
+		</div>
+	</div>
+</html>

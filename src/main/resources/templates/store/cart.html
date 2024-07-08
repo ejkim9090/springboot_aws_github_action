@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/header :: head('장바구니')}"></head>
+<link th:href="@{/css/store/cart.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/store/aside.css}" rel="stylesheet" type="text/css">
+<script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
+<script>
+let memEmail = "[[${memEmail}]]";
+let memNick = "[[${memNick}]]";
+let memTel = "[[${memTel}]]";
+const storeId = "[[${storeId}]]";
+const channelKey = "[[${channelKey}]]";
+let buyId = "[[${buyId}]]";
+</script>
+<script th:inline="javascript" type="text/javascript" th:src="@{/js/store/cart/loadedHandler.js}"></script> 
+<script th:inline="javascript" th:src="@{/js/store/cart/pay.js}"></script> 
+<script th:inline="javascript" type="text/javascript" th:src="@{/js/store/cart/delete.js}"></script> 
+<script th:inline="javascript" type="text/javascript" th:src="@{/js/store/cart/calc.js}"></script> 
+<script th:inline="javascript" type="text/javascript" th:src="@{/js/store/cart/btn_active.js}"></script> 
+<body>
+	<header class="header" th:replace="~{common/header :: wrap-header}"></header>
+	<aside th:insert="~{store/aside :: store-aside}"></aside>
+	<div class="wrap-main">
+		<div class="cart flex">
+			<div class="title">장바구니</div>
+			<div class="item-info flex">
+				<div class="item-name">상품명</div>
+				<div class="item-price">가격</div>
+				<div class="item-check">선택</div>
+			</div>
+			<div class="cart-list" th:if="${cart} != null">
+				<div class="cart-info flex" th:each="item : ${cart}">
+					<div class="cart-name" th:text="${item.ITEM_NAME}"></div>
+					<div class="cart-price" th:text="${item.ITEM_PRICE_CHAR}+'원'"></div>
+					<div class="cart-check flex">
+						<input type="checkbox" name="cart-pick" th:value="${item.ITEM_CODE}" style="width: 20px; height: 20px;">
+						<input type="hidden" th:value="${item.ITEM_PRICE}">
+					</div>
+				</div>
+			</div>
+			<div class="cart-list empty" th:if="${cart} == null" style="border-top: 1px solid lightgray; padding: 10px 0 0 0;">장바구니가 비었습니다.</div>
+		</div>
+		<div class="cart-bottom flex">
+			<div class="sum">총 가격 : 0 원</div>
+			<input type="hidden" name="pay">
+			<div class="cart-button flex">
+				<button type="button" class="btn pay" disabled>구매</button>
+				<button type="button" class="btn del" disabled>삭제</button>
+			</div>
+		</div>
+	</div>
+	<footer class="footer" th:insert="~{common/footer :: wrap-footer}"></footer>
+</body>
+</html>

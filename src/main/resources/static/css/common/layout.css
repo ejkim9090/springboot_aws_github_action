@@ -1,0 +1,42 @@
+@charset "UTF-8";
+.wrap-head .tn {
+    /* 중앙 배치 */
+    width: 960px;
+    margin: 0 auto;
+}
+
+.wrap-head {
+    height: auto;
+    min-height: 450px;  /* 나머지들의 최소 높이*/
+    min-height: 100%;
+  /* footer의 높이*/
+}
+
+body{
+	margin: 0;
+}
+
+/* 스크롤바 설정 */
+html::-webkit-scrollbar{
+     height: 10px;  /* 오른쪽 왼쪽 스크롤바 폭 너비 */
+     width: 10px;  /* 위 아래 스크롤바 폭 너비 */
+}
+html::-webkit-scrollbar-thumb{
+   border-radius: 10px;
+   border: 7px solid var(--color_gray);
+}
+html::-webkit-scrollbar-corner{
+   background: transparent;
+}
+
+footer {
+    background-color: var(--color_light_gray);
+
+    height: 280px; /* footer의 높이*/
+    position: relative;
+
+    transform: translateY(0%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

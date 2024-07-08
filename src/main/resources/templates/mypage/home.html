@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/header :: head('마이페이지')}"></head>
+<link th:href="@{/css/mypage/home.css}" rel="stylesheet" type="text/css">
+<script th:src="@{/js/mypage/home/loadedHandler.js}" type="text/javascript"></script>
+<body>
+	<header class="header" th:replace="~{common/header :: wrap-header}"></header>
+	<div class="wrap-main">
+		<div class="flex mypage">
+			<div class="title">마이페이지</div>
+			<div class="myInfo total">
+				<div class="myInfo email flex">
+					<div class="myInfo email">이메일 :</div>
+					<div><input type="text" name="memEmail" th:value="${memEmail}" readonly></div>
+				</div>
+				<div class="myInfo nick flex">
+					<div class="myInfo nick">닉네임 :</div>
+					<div><input type="text" name="memNick" th:value="${memNick}" readonly></div>
+				</div>
+			</div>
+			<div class="ch nick"><button type="button" class="btn chNick">닉네임 변경</button></div>
+			<div class="ch pwd"><button type="button" class="btn chPwd">비밀번호 변경</button></div>
+			<form id="frm-unlink">
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+				<div class="unlink kakao flex" th:if="${isKakao} == 4"><img th:src="@{/images/member/login_kakao.png}" style="width: 34px; height: 34px;"><button type="button" class="button unlink-kakao">연동 해제</button></div>
+				<div class="unlink naver flex" th:if="${isNaver} == 2"><img th:src="@{/images/member/login_naver.png}" style="width: 34px; height: 34px;"><button type="button" class="button unlink-naver">연동 해제</button></div>
+				<div class="unlink google flex" th:if="${isGoogle} == 1"><img th:src="@{/images/member/login_google.png}" style="width: 34px; height: 34px; background-color: white;"><button type="button" class="button unlink-google">연동 해제</button></div>
+				<div class="quit"><a th:href="@{/my/quit}">회원 탈퇴</a></div>
+			</form>
+		</div>
+	</div>
+	<footer class="footer" th:insert="~{common/footer :: wrap-footer}"></footer>
+	<script>
+		function unlinkKakaoHandler(){
+			$.ajax({
+				beforeSend : csrfHandler,
+				error : ajaxErrorHandler,
+				url: contextPath + "my/unlink/kakao", 
+				type: "post", 
+				success: function(data){
+					if(data > 0){
+						Swal.fire({
+							text: "카카오 연동을 해제하시겠습니까?", 
+							icon: "question", 
+							showCancelButton: true, 
+							confirmButtonText: "해제하기", 
+							confirmButtonColor: "#000000", 
+							cancelButtonText: "돌아가기", 
+							cancelButtonColor: "#ff0000"
+						}).then((swal) => {
+							if(swal.isConfirmed){
+								let form = document.getElementById('frm-unlink');
+								form.action = contextPath + 'logout';
+								form.method = 'POST';
+								form.submit();
+							}
+						});
+					}else if(data == -1){
+						Swal.fire({
+							text: "세션이 만료되었습니다. 다시 로그인해주시기 바랍니다.", 
+							icon: "warning", 
+							confirmButtonText: "확인", 
+							confirmButtonColor: "#000000" 
+						}).then((swal) => {
+							if(swal.isConfirmed){
+								let form = document.getElementById('frm-unlink');
+								form.action = contextPath + 'logout';
+								form.method = 'POST';
+								form.submit();
+							}
+						});
+					}else{
+						Swal.fire({
+							text: "알 수 없는 오류가 발생했습니다. 관리자에게 문의해주시기 바랍니다.", 
+							icon: "error", 
+							confirmButtonText: "확인", 
+							confirmButtonColor: "#000000"
+						});
+					}
+				}
+			});
+		}
+		
+		function unlinkNaverHandler(){
+			$.ajax({
+				beforeSend : csrfHandler,
+				url: contextPath + "my/unlink/naver", 
+				type: "post", 
+				error: function(){
+					Swal.fire({
+						text: "미구현 기능입니다.", 
+						icon: "info", 
+						confirmButtonText: "확인", 
+						confirmButtonColor: "#000000"
+					});
+				}, 
+				success: function(data){
+					if(data > 0){
+						Swal.fire({
+							text: "네이버 연동을 해제하시겠습니까?", 
+							icon: "question", 
+							showCancelButton: true, 
+							confirmButtonText: "해제하기", 
+							confirmButtonColor: "#000000", 
+							cancelButtonText: "돌아가기", 
+							cancelButtonColor: "#ff0000"
+						}).then((swal) => {
+							if(swal.isConfirmed){
+								let form = document.getElementById('frm-unlink');
+								form.action = contextPath + 'logout';
+								form.method = 'POST';
+								form.submit();
+							}
+						});
+					}else if(data == -1){
+						Swal.fire({
+							text: "세션이 만료되었습니다. 다시 로그인해주시기 바랍니다.", 
+							icon: "warning", 
+							confirmButtonText: "확인", 
+							confirmButtonColor: "#000000" 
+						}).then((swal) => {
+							if(swal.isConfirmed){
+								let form = document.getElementById('frm-unlink');
+								form.action = contextPath + 'logout';
+								form.method = 'POST';
+								form.submit();
+							}
+						});
+					}else{
+						Swal.fire({
+							text: "미구현 기능입니다.", 
+							icon: "info", 
+							confirmButtonText: "확인", 
+							confirmButtonColor: "#000000"
+						});
+					}
+				}
+			});
+		}
+		
+		function unlinkGoogleHandler(){
+			$.ajax({
+				beforeSend : csrfHandler,
+				url: contextPath + "my/unlink/google", 
+				type: "post", 
+				error: () => {
+					Swal.fire({
+						text: "미구현 기능입니다.", 
+						icon: "info", 
+						confirmButtonText: "확인", 
+						confirmButtonColor: "#000000"
+					});
+				}, 
+				success: function(data){
+					if(data > 0){
+						Swal.fire({
+							text: "구글 연동을 해제하시겠습니까?", 
+							icon: "question", 
+							showCancelButton: true, 
+							confirmButtonText: "해제하기", 
+							confirmButtonColor: "#000000", 
+							cancelButtonText: "돌아가기", 
+							cancelButtonColor: "#ff0000"
+						}).then((swal) => {
+							if(swal.isConfirmed){
+								let form = document.getElementById('frm-unlink');
+								form.action = contextPath + 'logout';
+								form.method = 'POST';
+								form.submit();
+							}
+						});
+					}else if(data == -1){
+						Swal.fire({
+							text: "세션이 만료되었습니다. 다시 로그인해주시기 바랍니다.", 
+							icon: "warning", 
+							confirmButtonText: "확인", 
+							confirmButtonColor: "#000000" 
+						}).then((swal) => {
+							if(swal.isConfirmed){
+								let form = document.getElementById('frm-unlink');
+								form.action = contextPath + 'logout';
+								form.method = 'POST';
+								form.submit();
+							}
+						});
+					}else{
+						Swal.fire({
+							text: "미구현 기능입니다.", 
+							icon: "info", 
+							confirmButtonText: "확인", 
+							confirmButtonColor: "#000000"
+						});
+					}
+				}
+			});
+		}
+	</script>
+</body>
+</html>

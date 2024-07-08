@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{common/header :: head('로그인')}"></head>
+<link th:href="@{/css/member/login.css}" rel="stylesheet" type="text/css">
+<script type="text/javascript" th:src="@{/js/member/login/loadedHandler.js}"></script>
+<body>
+	<header class="header" th:replace="~{common/header :: wrap-header}"></header>
+	<div class="wrap-main">
+		<form id="frm-login" action="/login" method="post">
+ 			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
+			<section class="flex login">
+				<div class="login title">로그인</div>
+				<div th:replace="~{member/fragment :: inputlbl(이메일, memEmail, text, 3, '이메일 주소')}"></div>
+				<div th:replace="~{member/fragment :: inputlbl(비밀번호, memPassword, password, 3, 비밀번호)}"></div>
+				<div th:if="${error}">
+		            <p style="color:red;" th:text="${exception}"></p>
+		        </div>
+				<div><button type="submit" class="btn login">로그인</button></div>
+				<div class="flex center findpwd"><a th:href="@{/pwd}">비밀번호 찾기</a></div>
+				<div class="flex join">
+					<div class="memyn">아직 회원이 아니세요?</div>
+					<div class="email-join"><a th:href="@{/join}">이메일 회원가입</a></div>
+				</div>
+				<div class="flex snslogin">
+					<div>SNS 간편 로그인</div>
+					<div class="flex snslogo">
+						<a th:href="@{/oauth2/authorization/kakao}"><img th:src="@{/images/member/login_kakao.png}" style="width: 34px; height: 34px;"></a>
+						<a th:href="@{/oauth2/authorization/naver}"><img th:src="@{/images/member/login_naver.png}" style="width: 34px; height: 34px;"></a>
+						<a th:href="@{/oauth2/authorization/google}"><img th:src="@{/images/member/login_google.png}" style="width: 34px; height: 34px; background-color: white;"></a>
+					</div>
+				</div>
+			</section>
+		</form>
+	</div>
+	<footer class="footer" th:insert="~{common/footer :: wrap-footer}"></footer>
+</body>
+</html>

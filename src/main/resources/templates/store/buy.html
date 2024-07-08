@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/header :: head('구매내역')}"></head>
+<style>
+.wrap-main {
+	width: 960px;
+	margin: 100px auto;
+	/* padding: 0 240px; */
+	position: relative;
+}
+
+.wrap-main * {
+	font-family: 'Binggrae';
+}
+
+.wrap-main .btn {
+	cursor: pointer;
+	border-radius: 8px;
+	border: 0;
+	background-color: black;
+	color: white;
+	padding: 5px 10px;
+}
+
+.wrap-main .btn:disabled{
+	background-color: lightgray;
+	color: white;
+}
+
+.wrap-main .hide{
+	display: none;
+}
+
+.wrap-main .flex {
+	display: flex;
+	row-gap: 10px;
+}
+.wrap-main .flex.buy{
+	flex-direction: column;
+	width: 100%;
+}
+.wrap-main .checked{
+	background-color: var(--color_light_gray);
+	font-size: var(--font3);
+	line-height: 2em;
+	padding: 0 10px;
+	border-radius: 10px;
+}
+.wrap-main .title{
+	font-size: var(--font1);
+	margin-top: 15px;
+}
+
+.wrap-main .item-info.flex{
+	margin-top: 10px;
+	align-items: center;
+}
+
+.wrap-main .buy-list.empty{
+	font-size: var(--font1);
+	margin-bottom: 10px;
+	text-align: center;
+}
+.wrap-main .buy-info.flex{
+	border-top: 1px solid lightgray;
+	padding: 10px 0;
+	align-items: center;
+}
+.wrap-main .item-info.flex > div, 
+.wrap-main .buy-info.flex > div{
+	padding: 5px 10px;
+	width: 160px;
+	line-height: 2em;
+	font-size: var(--font3);
+}
+.wrap-main .item-info.flex .item-name, 
+.wrap-main .buy-info.flex .buy-name{
+	width: 480px;
+}
+.wrap-main .item-info.flex *, 
+.wrap-main .buy-info.flex *{
+	text-align: center;
+}
+
+/* 사이드바 */
+.wrap-main aside.sidebar{
+	position: fixed;
+	border: 1px solid black;
+	border-radius: 10px;
+	background-color: white;
+	left: 20px;
+}
+.wrap-main div.sidebar{
+	flex-direction: column;
+	align-items: center;
+	padding: 5px 10px;
+}
+.wrap-main .sidebar.item{
+	flex-direction: row;
+	column-gap: 10px;
+	margin-bottom: 10px;
+}
+.wrap-main .sidebar.item a{
+	margin-top: 5px;
+}
+
+/* 가격 + 구매버튼 */
+.wrap-main .buy-bottom.flex{
+	flex-direction: row;
+	border-top: 1px solid lightgray;
+	padding-top: 10px;
+	line-height: 2em;
+	align-items: center;
+	justify-content: space-between
+}
+.wrap-main .buy-check.flex{
+	align-items: center;
+	justify-content: center;
+}
+.wrap-main .buy-button.flex{
+	column-gap: 15px;
+}
+</style>
+<link th:href="@{/css/store/aside.css}" rel="stylesheet" type="text/css">
+<!-- jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script>
+$(loadedHandler);
+function loadedHandler(){
+	//버튼:hover css
+	$('.btn').hover(function(){
+		if(!$(this).prop('disabled')){
+			$(this).css('background-color', 'lightgray');
+			$(this).css('color', 'black');
+		}
+	}, function(){
+		if(!$(this).prop('disabled')){
+			$(this).css('background-color', 'black');
+			$(this).css('color', 'white');
+		}
+	});
+	
+	// 버튼 활성화
+	$('input[name=buy-pick]').on('click', btnActiveHandler);
+}
+
+// 버튼 활성화
+function btnActiveHandler(){
+	let checkNum = $('input[name=buy-pick]:checked').length;
+	if(checkNum == 0){
+		$('.btn').prop('disabled', true);
+	}else{
+		$('.btn').prop('disabled', false);
+	}
+}
+</script>
+<body>
+	<header class="header" th:replace="~{common/header :: wrap-header}"></header>
+	<aside th:insert="~{store/aside :: store-aside}"></aside>
+	<div class="wrap-main">
+		<div class="buy flex">
+			<div class="title">구매내역</div>
+			<div class="item-info flex">
+				<div class="item-buyId">주문번호</div>
+				<div class="item-name">상품명</div>
+				<div class="item-price">가격</div>
+				<div class="item-check">구매일자</div>
+			</div>
+			<div class="buy-list" th:if="${list} != null">
+				<div class="buy-info flex" th:each="item : ${list}">
+					<div class="buy-buyId" th:text="${item.BUY_ID}"></div>
+					<div class="buy-name" th:text="${item.ITEM_NAME}"></div>
+					<div class="buy-price" th:text="${item.ITEM_PRICE_CHAR}+'원'"></div>
+					<div class="buy-date" th:text="${item.BUY_DATE}"></div>
+				</div>
+			</div>
+			<div class="buy-list empty" th:if="${list} == null">구매내역이 비었습니다.</div>
+		</div>
+	</div>
+	<footer class="footer" th:insert="~{common/footer :: wrap-footer}"></footer>
+</body>
+</html>

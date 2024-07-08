@@ -1,0 +1,168 @@
+@charset "UTF-8";
+.schedule-wrapper #tab02 {
+    justify-content: stretch;
+    grid-template-columns:335px 335px;
+    gap: 10px 20px;
+    align-items: center;
+}
+
+.schedule-wrapper #tab02 .spot {
+	width: 100%;
+	height: 100%;
+	padding: 30px 0 0 0;
+}
+
+.schedule-wrapper #tab02 .spot.first {
+	margin-right: 10px;
+}
+
+.schedule-wrapper #tab02 .plan-title {
+	font-size: var(--font2);
+	font-weight: bold;
+}
+
+.schedule-wrapper #tab02 .plan-priod {
+	font-size: var(--font4);
+	margin: 10px 0 30px 0;
+	color: var(--color_gray);
+}
+
+/* 장소 찾기 */
+.schedule-wrapper #frm-find-spot {
+	margin: 15px 0;
+	position: relative;
+}
+
+.schedule-wrapper #frm-find-spot input {
+	height: 30px;
+	width: 100%;
+	border-radius: 8px;
+	border: 0;
+	background-color: white;
+	font-family: "Binggrae";
+	font-size: var(--font4);
+	box-shadow: 0 2px 8px 0 var(--color_gray) !important;
+}
+
+.schedule-wrapper #frm-find-spot button {
+	border: 0;
+	background-color: white;
+	position: absolute;
+	top: 13%;
+	right: 0%;
+}
+
+/* 장소 탭 */
+.schedule-wrapper  #tab02 .spot-tab-nav {
+	display: flex;
+	float: left;
+}
+
+.schedule-wrapper  #tab02 .spot-tab-nav li {
+	padding: 5px 10px;
+	border: 1px solid var(--color_gray);
+	border-radius: 8px;
+	margin-right: 5px;
+	font-size: var(--font5);
+}
+/* 박스 */
+.schedule-wrapper #tab02 .spot-tab-content {
+	margin-top: 30px;
+	height: 660px;
+	overflow-y: auto;
+}
+
+.spot-tab-content div .spot-box {
+	width: 100%;
+	height: 80px;
+	border-radius: 8px;
+	align-items: center;
+	flex-direction: row;
+	/* flex-wrap: wrap; */
+	justify-content: flex-start;
+	margin: 5px 0;
+	margin-right: 5px;
+	/* 줄어듦 방지 */
+	flex-shrink: 0;
+}
+
+.spot-tab-content div .spot-img {
+	object-fit: cover;
+	margin-left: 10px;
+	border-radius: 8px;
+	/* 줄어듦 방지 */
+	flex-shrink: 0;
+}
+
+.spot-tab-content div .spot-txt {
+	width: 200px;
+	margin: 0 10px;
+	font-size: var(--font5);
+	display: flex;
+	flex-direction: column;
+	line-height: 120%;
+}
+.schedule-wrapper .wrap-spotList{
+	flex-direction: column;
+} 
+
+/* 체크박스 커스텀 */
+.spot-tab-content input[type="checkbox"]+label {
+	display: block;
+	margin-left: auto;
+	margin-right: 10px;
+	width: 35px;
+	height: 55px;
+	background: url('/images/plan/spot_ck_bf.png') no-repeat 0 0px/contain;
+}
+
+/* TODO id 바꿔주기 */
+.spot-tab-content input[type='checkbox']:checked+label {
+	background: url('/images/plan/spot_ck_af.png') no-repeat 0 1px/contain;
+}
+
+.spot-tab-content input[type="checkbox"] {
+	display: none;
+}
+
+/*더보기 버튼*/
+.schedule-wrapper  #tab02 .spot-tab-content .spot_more_btn {
+	margin-top: 20px;
+	width: 100%;
+	height: 40px;
+	font-family: "Binggrae";
+	font-size: var(--font4);
+	font-weight: bold;
+	background:var(--color_light_gray);
+	color: black;
+	border: 0;
+	border-radius: 8px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.schedule-wrapper  #tab02 .spot-tab-content .spot_more_btn:hover {
+	background: black;
+	color: white;
+}
+
+/*검색 후 더보기 버튼*/
+.schedule-wrapper  #tab02 .spot-tab-content .spot_find_more_btn {
+	margin-top: 20px;
+	width: 100%;
+	height: 40px;
+	font-family: "Binggrae";
+	font-size: var(--font4);
+	font-weight: bold;
+	background:var(--color_light_gray);
+	color: black;
+	border: 0;
+	border-radius: 8px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.schedule-wrapper  #tab02 .spot-tab-content .spot_find_more_btn:hover {
+	background: black;
+	color: white;
+}

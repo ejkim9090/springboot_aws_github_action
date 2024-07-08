@@ -1,0 +1,96 @@
+@charset "UTF-8";
+/* 글에 여백 주기 */
+.mydiary-mian-wrap {
+	width: 960px;
+	height: 100%; /*더보기시 footer 밑으로 가게끔  */
+	margin: auto;
+	padding-top: 110px; /*사이드바랑 나란히  */
+	padding-bottom: 5%;
+	font-family: 'Binggrae';
+}
+
+.mydiary-wrap {
+	/* width: 960px;
+	height: 100%;더보기시 footer 밑으로 가게끔 
+	margin: auto;
+	padding-top: 110px; 사이드바랑 나란히 
+	padding-bottom: 5%;
+	font-family: 'Binggrae'; */
+	
+}
+/* 나의 글 리스트 배열 글 밑으로 가게 */
+.board-list {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	align-items: center;
+	gap: 53px;
+}
+/* 버튼 가운데 정렬 */
+.btn-more {
+	display: flex;
+	justify-content: center;
+	padding-top: 45px;
+}
+/* 버튼 깜빡이 호버 기능  */
+.btn-more button {
+	width: 130px;
+	height: 30px;
+	font-family: "Binggrae";
+	font-size: var(--font4);
+	background: black;
+	color: white;
+	border: 0;
+	border-radius: 8px;
+	text-align: center;
+	padding-top: 7px;
+}
+
+.btn-more button:hover {
+	background: var(--color_light_gray);
+	color: black;
+	cursor: pointer;
+}
+/* 이미지 밑에 제목 날짜 간격 조절 */
+.diary-date {
+	margin-top: 10px;
+	font-size: var(--font6);
+}
+
+.diary-title {
+	margin-top: 10px;
+	font-size: var(--font5);
+	height: 20px;
+}
+/* 여행일지 밑 간격 띄우기 */
+.wrap-diary {
+	padding-bottom: 20px;
+	width: 200px; /* 넚이 주기 */
+}
+/* 공개/비공개 글씨크기 */
+.diary-open {
+	font-size: var(--font6);
+}
+
+.diary-title>a {
+	text-overflow: ellipsis;
+	word-wrap: break-word;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.board-list>.board_more {
+	display: flex;
+	flex-direction: row;
+	gap: 53px;
+	width: 960px; /* 양옆 간격 유지 */
+	padding-bottom: 30px; /* 아래 간격 유지  */
+}
+.mytitle-img{
+	width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}

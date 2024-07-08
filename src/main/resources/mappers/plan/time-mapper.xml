@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mclass.store.tripant.plan.model.repostiory.TimeRepositoryCrawling">
+	<!-- 이동시간 등록을 위한 mapper -->
+	<delete id="deleteAllPlaceMoveTime">
+		TRUNCATE TABLE PLACE_MOVE_TIME
+	</delete>
+
+	<select id="selectPlaceMapList" parameterType="_int" resultType="PlaceMapEntity">
+<!-- TODO		SELECT TYPE, CONTENTID, MAPX, MAPY FROM PLACE WHERE AREACODE=#{areacode} AND TYPE != 10 ORDER BY CONTENTID --> 
+		SELECT TYPE, CONTENTID, MAPX, MAPY FROM PLACE WHERE AREACODE=#{areacode} AND TYPE !=10  ORDER BY CONTENTID 
+	</select>
+	
+	<insert id="insertPlaceMoveTime" parameterType="PlaceMoveTimeEntity">
+		INSERT INTO PLACE_MOVE_TIME(TYPE_START, CONTENTID_START, TYPE_END, CONTENTID_END, MOVE_TIME) VALUES (#{typeStart}, #{contentidStart}, #{typeEnd}, #{contentidEnd}, #{moveTime})
+	</insert>
+	
+</mapper>

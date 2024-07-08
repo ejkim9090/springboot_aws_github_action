@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="board_more"  th:fragment="board_more"> 
+<th:block th:if="${diaries} != null">
+	<th:block th:each="diary :  ${diaries}">
+		<div class="wrap-diary">
+			<div class="diary-img">
+					<th:block th:if="${diary.diaryImage != null}">
+						<img th:src="${diary.diaryImage}" alt="대표 이미지" class="mytitle-img">
+					</th:block>
+					<th:block th:if="${diary.diaryImage == null}">
+						<img th:src="@{/images/diary/diary_empty_iamge_size_200x200.png}" alt="대표 이미지" class="mytitle-img">
+					</th:block>
+					</div>
+			<div class="wrap-content">
+				<div class="diary-content">
+					<!-- a 태그 대신 연결하는 방법 -->
+					<div th:with="url=@{'/diary/read/' + ${diary.diaryId}}">
+						<p class="diary-title" style="font-size: var(--font3);">
+							<a th:href="${url}" th:text="${diary.diaryTitle}"></a>
+						</p>
+						<!-- 공개여부  -->
+					</div>
+					<p class="diary-date" th:text="${diary.diaryDate}"></p>
+					<th:block th:if="${diary.diaryOpen == '0'}">
+						<p class="diary-open">공개</p>
+					</th:block>
+					<th:block th:if="${diary.diaryOpen == '1'}">
+						<p class="diary-open">비공개</p>
+					</th:block>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</th:block>
+</div>
+</body>
+</html>

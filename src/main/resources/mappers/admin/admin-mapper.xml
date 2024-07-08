@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mclass.store.tripant.admin.model.repository.AdminRepository">
+
+	<!-- 회원관리 -->
+ 	<select id="selectMemList" resultType="AdminMemEntity" parameterType="map">
+	SELECT T2.*, (select to_char(T3.MEM_QUIT_DATE,'yyyy-MM-dd') from quit_member T3 where T3.MEM_EMAIL = T2.MEM_EMAIL) MEM_QUIT_DATE
+		FROM (SELECT T1.*, ROWNUM RN FROM
+			(select a.MEM_EMAIL  MEM_EMAIL  ,a.MEM_NICK MEM_NICK, 	
+                    to_char(a.MEM_JOIN_DATE,'yyyy-MM-dd') MEM_JOIN_DATE, a.MEM_ROLE  MEM_ROLE , a.MEM_ENABLED MEM_ENABLED
+             FROM member a 
+ 			<if test='searchMem != null and searchMem !=""'>
+			<bind name="keyword" value="'%'+searchMem+'%'" />
+			where mem_nick like #{keyword}
+			</if>
+			 ORDER BY MEM_JOIN_DATE DESC ) T1 ) T2 
+		WHERE RN BETWEEN #{startRownum} AND #{endRownum}
+	</select>
+	<!--회원검색 -->
+	<select id="selectMemListSearch" resultType="AdminMemEntity" parameterType="map">
+	SELECT T2.*, (select to_char(T3.MEM_QUIT_DATE,'yyyy-MM-dd') from quit_member T3 where T3.MEM_EMAIL = T2.MEM_EMAIL) MEM_QUIT_DATE
+		FROM (SELECT T1.*, ROWNUM RN FROM
+			(select a.MEM_EMAIL  MEM_EMAIL  ,a.MEM_NICK MEM_NICK, 	
+                    to_char(a.MEM_JOIN_DATE,'yyyy-MM-dd') MEM_JOIN_DATE, a.MEM_ROLE  MEM_ROLE , a.MEM_ENABLED MEM_ENABLED
+             FROM member a 
+ 			<if test='searchMem != null and searchMem !=""'>
+			<bind name="keyword" value="'%'+searchMem+'%'" />
+			where mem_nick like #{keyword}
+			</if>
+			 ORDER BY MEM_JOIN_DATE DESC ) T1 ) T2 
+		WHERE RN BETWEEN #{startRownum} AND #{endRownum}
+	</select>
+	<!-- 총 멤버 수 -->
+	<select id="totalCount" resultType="_int" parameterType="map">
+		select count(*) from member
+		<if test='searchMem != null and searchMem !=""'>
+			<bind name="keyword" value="'%'+searchMem+'%'" />
+			where mem_nick like #{keyword}
+		</if> 
+	</select>
+	<!-- 검색 멤버 수 -->
+	<select id="totalCountSearch" resultType="_int" parameterType="string">
+		select count(*) from member 
+		<if test='searchMem != null and searchMem !=""'>
+			<bind name="keyword" value="'%'+searchMem+'%'" />
+			where mem_nick like #{keyword}
+		</if> 
+	</select>
+	
+	<!-- 등급변경 , 활성화 여부-->
+	<update id="adminMemInfo" parameterType="map">
+	update member set mem_role=#{memRole} , mem_enabled=#{memEnabled} where mem_email=#{memEmail}
+	</update>
+	
+	<!--게시글 조회 -->
+	<select id="boardList" resultType="AdminBoardEntity"  parameterType="map">
+	SELECT T2.* FROM
+		(SELECT T1.*, ROWNUM RN FROM
+		(select diary_id, diary_title ,to_char(diary_date,'yyyy-MM-dd') diary_date,diary_views,nvl(likes,0) likes, mem_nick from 
+		((select a.diary_id, a.diary_title diary_title, a.diary_date diary_date, a.diary_views diary_views,a.diary_mem_email, b.likes
+		from DIARY a
+		left join (select count (mem_email) likes , diary_id from diary_likes group by diary_id) b on a.diary_id= b.diary_id))
+		join member on diary_mem_email=mem_email
+		<if test='search != null and search !=""'>
+		<bind name="keyword" value="'%'+search+'%'" />
+		<choose>
+			<when test="pick.equals('title')">
+				where diary_title like #{keyword}
+			</when>
+			<when test="pick.equals('nick')">
+				where mem_nick like #{keyword}
+			</when>
+		</choose>
+		</if>
+		 ORDER BY diary_date DESC) T1 ) T2
+		WHERE RN BETWEEN #{startRownum} AND #{endRownum}
+	</select>
+
+	<!-- 게시글 총개수 -->
+	<select id="diaryCount" resultType="_int" parameterType="map">
+	select count(*) from (select diary_id, diary_title ,to_char(diary_date,'yyyy-MM-dd') diary_date,diary_views,nvl(likes,0) likes, mem_nick from 
+	((select a.diary_id, a.diary_title diary_title, a.diary_date diary_date, a.diary_views diary_views,a.diary_mem_email, b.likes
+	from DIARY a
+	left join (select count (mem_email) likes , diary_id from diary_likes group by diary_id) b on a.diary_id= b.diary_id))
+	join member on diary_mem_email=mem_email)
+	<if test='search != null and search !=""'>
+		<bind name="keyword" value="'%'+search+'%'" />
+		<choose>
+			<when test="pick.equals('title')">
+				where diary_title like #{keyword}
+			</when>
+			<when test="pick.equals('nick')">
+				where mem_nick like #{keyword}
+			</when>
+		</choose>
+	</if>
+	</select>
+	
+	<!--검색 게시글 총개수  -->
+	<select id="keywordSearchCount" resultType="_int" parameterType="string">
+	select count(*) from (select diary_id, diary_title ,to_char(diary_date,'yyyy-MM-dd') diary_date,diary_views,nvl(likes,0) likes, mem_nick from 
+	((select a.diary_id, a.diary_title diary_title, a.diary_date diary_date, a.diary_views diary_views,a.diary_mem_email, b.likes
+	from DIARY a
+	left join (select count (mem_email) likes , diary_id from diary_likes group by diary_id) b on a.diary_id= b.diary_id))
+	join member on diary_mem_email=mem_email)
+	<if test='search != null and search !=""'>
+		<bind name="keyword" value="'%'+search+'%'" />
+		<choose>
+			<when test="pick.equals('title')">
+				where diary_title like #{keyword}
+			</when>
+			<when test="pick.equals('nick')">
+				where mem_nick like #{keyword}
+			</when>
+		</choose>
+	</if>
+	</select>
+	
+	<!--게시글 조건검색(select)  -->
+	<select id="keywordSearch"  parameterType="map" resultType="AdminBoardEntity">
+	SELECT T2.* FROM
+		(SELECT T1.*, ROWNUM RN FROM
+		(select diary_id, diary_title ,to_char(diary_date,'yyyy-MM-dd') diary_date,diary_views, nvl(likes,0) likes, mem_nick from 
+		((select a.diary_id, a.diary_title diary_title, a.diary_date diary_date, a.diary_views diary_views,a.diary_mem_email, b.likes
+		from DIARY a
+		left join (select count (mem_email) likes , diary_id from diary_likes group by diary_id) b on a.diary_id= b.diary_id))
+		join member on diary_mem_email=mem_email
+	<if test='search != null and search !=""'>
+		<bind name="keyword" value="'%'+search+'%'" />
+		<choose>
+			<when test="pick.equals('title')">
+				where diary_title like #{keyword}
+			</when>
+			<when test="pick.equals('nick')">
+				where mem_nick like #{keyword}
+			</when>
+		</choose>
+	</if>
+		ORDER BY diary_date DESC) T1 ) T2
+		WHERE RN BETWEEN #{startRownum} AND #{endRownum}
+	</select>
+	
+	<!--좋아요 순으로 정렬 -->
+	<select id="boardLike" resultType="AdminBoardEntity">
+	select diary_id, diary_title ,to_char(diary_date,'yyyy-MM-dd') diary_date,diary_views, nvl(likes,0) likes, mem_nick from 
+	((select a.diary_id, a.diary_title diary_title, a.diary_date diary_date, a.diary_views diary_views,a.diary_mem_email, b.likes
+	from DIARY a
+	left join (select count (mem_email) likes , diary_id from diary_likes group by diary_id) b on a.diary_id= b.diary_id))
+	join member on diary_mem_email=mem_email
+    order by likes desc nulls last
+    </select>
+    
+	<!-- 조회수 순으로 정렬 -->
+	<select id="boardView" resultType="AdminBoardEntity">
+	select diary_id, diary_title ,to_char(diary_date,'yyyy-MM-dd') diary_date,diary_views, nvl(likes,0) likes, mem_nick from 
+	((select a.diary_id, a.diary_title diary_title, a.diary_date diary_date, a.diary_views diary_views,a.diary_mem_email, b.likes
+	from DIARY a
+	left join (select count (mem_email) likes , diary_id from diary_likes group by diary_id) b on a.diary_id= b.diary_id))
+	join member on diary_mem_email=mem_email
+    order by diary_views desc nulls last
+	</select>
+	
+	<!-- 신고게시글 -->
+	<select id="complainList" resultType="AdminBoardEntity" parameterType="map">
+	SELECT T2.* FROM
+		(SELECT T1.*, ROWNUM RN FROM
+		(select diary_id, diary_title,to_char(diary_date,'yyyy-MM-dd') diary_date,reports,mem_nick from 
+	((select a.diary_id, a.diary_title diary_title, a.diary_date diary_date ,a.diary_mem_email, b.reports
+		from DIARY a
+		left join (select count (mem_email) reports , diary_id from diary_reports group by diary_id) b on a.diary_id= b.diary_id))
+		join member 
+		on diary_mem_email=mem_email
+		where reports is not null
+		 <if test='searchMem != null and searchMem !=""'>
+        <bind name="keyword" value="'%'+searchMem+'%'" /> 
+        and mem_nick like #{keyword}
+		</if>
+		 ORDER BY diary_id DESC) T1 ) T2
+		WHERE RN BETWEEN #{startRownum} AND #{endRownum}
+	</select>
+	
+	<!-- 총 신고게시글 수 -->
+	<select id="boardCount" resultType="_int" parameterType="map">
+	select count(*) 
+	from 
+	(select diary_id, diary_title,to_char(diary_date,'yyyy-MM-dd') diary_date,reports,mem_nick from 
+	((select a.diary_id, a.diary_title diary_title, a.diary_date diary_date ,a.diary_mem_email, b.reports
+		from DIARY a
+		left join (select count (mem_email) reports , diary_id from diary_reports group by diary_id) b on a.diary_id= b.diary_id))
+		join member 
+		on diary_mem_email=mem_email
+        where reports is not null) 
+		<if test='searchMem != null and searchMem !=""'>
+			<bind name="keyword" value="'%'+searchMem+'%'" />
+			where mem_nick like #{keyword}
+		</if> 
+	</select>
+	<!-- 검색 신고게시글 수 -->
+	<select id="boardCountSearch" resultType="_int" parameterType="string">
+	select count(*) 
+	from 
+	(select diary_id, diary_title,to_char(diary_date,'yyyy-MM-dd') diary_date,reports,mem_nick from 
+	((select a.diary_id, a.diary_title diary_title, a.diary_date diary_date ,a.diary_mem_email, b.reports
+		from DIARY a
+		left join (select count (mem_email) reports , diary_id from diary_reports group by diary_id) b on a.diary_id= b.diary_id))
+		join member 
+		on diary_mem_email=mem_email
+        where reports is not null) 
+		<if test='searchMem != null and searchMem !=""'>
+			<bind name="keyword" value="'%'+searchMem+'%'" />
+			where mem_nick like #{keyword}
+		</if> 
+	</select>
+	
+	<!-- 신고게시글 검색 -->
+	<select id="complainsearch" resultType="AdminBoardEntity" parameterType="map">
+	SELECT T2.* FROM
+		(SELECT T1.*, ROWNUM RN FROM
+		(select diary_id, diary_title,to_char(diary_date,'yyyy-MM-dd') diary_date,reports,mem_nick from 
+		((select a.diary_id, a.diary_title diary_title, a.diary_date diary_date ,a.diary_mem_email, b.reports
+		from DIARY a
+		left join (select count (mem_email) reports , diary_id from diary_reports group by diary_id) b on a.diary_id= b.diary_id))
+		join member 
+		on diary_mem_email=mem_email
+		where reports is not null
+		 <if test='searchMem != null and searchMem !=""'>
+        <bind name="keyword" value="'%'+searchMem+'%'" /> 
+        and mem_nick like #{keyword}
+		</if>
+		 ORDER BY diary_id DESC) T1 ) T2
+		WHERE RN BETWEEN #{startRownum} AND #{endRownum}
+	</select>
+	
+	<!--신고수 초기화 -->
+	<delete id="complainReset" parameterType="_int">
+	delete from diary_reports where diary_id = #{diaryId}
+	</delete>
+	
+	<!--신고수 정렬  -->
+	<select id="boardReport" resultType="AdminBoardEntity">
+	select diary_id, diary_title,to_char(diary_date,'yyyy-MM-dd') diary_date,reports,mem_nick from 
+	((select a.diary_id, a.diary_title diary_title, a.diary_date diary_date ,a.diary_mem_email, b.reports
+	from DIARY a
+	left join (select count (mem_email) reports , diary_id from diary_reports group by diary_id) b on a.diary_id= b.diary_id))
+	join member on diary_mem_email=mem_email
+	where reports is not null
+	order by reports desc 
+	</select>
+	
+	<!-- 결제 취소 페이지 -->
+	<!-- 결제 목록 -->
+	<select id="payList" resultType="AdminStoreEntity" parameterType="map" >
+	SELECT T2.* FROM
+		(SELECT T1.*, ROWNUM RN FROM
+		(select buy_id, mem_nick, mem_email, item_name, to_char(buy_date, 'YYYY-MM-DD') as buy_date, item_code from v_pay_list 
+		<if test='searchMem != null and searchMem !=""'>
+        <bind name="keyword" value="'%'+searchMem+'%'" />
+		WHERE mem_nick like #{keyword}
+		</if>
+		 ORDER BY  buy_date DESC) T1 ) T2
+		WHERE RN BETWEEN #{startRownum} AND #{endRownum}
+	</select>
+	<!-- 결제취소 수 -->
+	<select id="payCount" resultType="_int" parameterType="map">
+	select count(*) from v_pay_list
+		<if test='searchMem != null and searchMem !=""'>
+			<bind name="keyword" value="'%'+searchMem+'%'" />
+			where mem_nick like #{keyword}
+		</if> 
+	</select>
+		<!-- 결제취소 검색 수 -->
+	<select id="payCountSearch" resultType="_int" parameterType="string">
+	select count(*) from v_pay_list
+		<if test='searchMem != null and searchMem !=""'>
+			<bind name="keyword" value="'%'+searchMem+'%'" />
+			where mem_nick like #{keyword}
+		</if> 
+	</select>
+	
+	<!--결제취소 회원 검색  -->
+	<select id="cancelSearch" resultType="AdminStoreEntity" parameterType="map">
+	SELECT T2.* FROM
+		(SELECT T1.*, ROWNUM RN FROM
+		(select buy_id, mem_nick, mem_email, item_name, to_char(buy_date, 'YYYY-MM-DD') as buy_date, item_code from v_pay_list 
+		<if test='searchMem != null and searchMem !=""'>
+        <bind name="keyword" value="'%'+searchMem+'%'" />
+		WHERE mem_nick like #{keyword}
+		</if>
+		 ORDER BY buy_date desc) T1 ) T2
+		WHERE RN BETWEEN #{startRownum} AND #{endRownum}
+	</select>
+
+	<!-- 결제 취소 -->
+	<delete id="payCancel" parameterType="map">
+	delete from buy where mem_email = #{memEmail} and buy_id = #{buyId} 
+	</delete>
+	
+	<!-- 상품 관리 페이지 -->
+	<!-- 상품목록 -->
+	<select id="itemList" resultType="AdminStoreEntity" parameterType="map">
+	SELECT T2.* FROM
+		(SELECT T1.*, ROWNUM RN FROM
+		(select item_code, item_name, item_price, to_char(item_price, '999,999') as item_price_char, item_dur,
+		 item_sale, item_color, item_src from item 
+		 <if test='itemCode != null and itemCode !=""'>
+        <bind name="keyword" value="'%'+itemCode+'%'" />
+		WHERE item_code like #{keyword}
+		</if> 
+		 ORDER BY item_code asc ) T1 ) T2
+		WHERE RN BETWEEN #{startRownum} AND #{endRownum}
+	</select>
+	<!-- 총 상품 수 -->
+	<select id="itemCount" resultType="_int" parameterType="map">
+		select count(*) from item
+		 <if test='itemCode != null and itemCode !=""'>
+			<bind name="keyword" value="'%'+itemCode+'%'" />
+			where item_code like #{keyword}
+		</if>  
+	</select>
+	
+	<!--검색 상품 수  -->
+	<select id="itemSearchCount" resultType="_int" parameterType="string">
+		select count(*) from item
+		 <if test='itemCode != null and itemCode !=""'>
+			<bind name="keyword" value="'%'+itemCode+'%'" />
+			where item_code like #{keyword}
+		</if>  
+	</select>
+	
+	<!--상품검색 -->
+	<select id="itemsearch" parameterType="string" resultType="AdminStoreEntity">
+	SELECT T2.* FROM
+		(SELECT T1.*, ROWNUM RN FROM
+		(select item_code, item_name, item_price, to_char(item_price, '999,999') as item_price_char, item_dur,
+		 item_sale, item_color, item_src from item 
+		 <if test='itemCode != null and itemCode !=""'>
+        <bind name="keyword" value="'%'+itemCode+'%'" />
+		WHERE item_code like #{keyword}
+		</if> 
+		 ORDER BY item_code asc ) T1 ) T2
+		WHERE RN BETWEEN #{startRownum} AND #{endRownum}
+	</select>
+		<!-- 페이지처리
+		<select id="selectPage" resultType="BoardListDto" parameterType="map">
+		SELECT T2.* FROM
+		(SELECT T1.*, ROWNUM RN FROM
+		(select a.MEM_EMAIL  MEM_EMAIL  ,a.MEM_NICK MEM_NICK, to_char(a.MEM_JOIN_DATE,'yyyy-MM-dd') MEM_JOIN_DATE, a.MEM_ROLE  MEM_ROLE , a.MEM_ENABLED MEM_ENABLED, b.MEM_QUIT_DATE
+            from member a
+            left join quit_member b
+            on a.MEM_EMAIL=b.MEM_EMAIL 
+		<if test='searchMem != null and searchMem !=""'>
+        <bind name="keyword" value="'%'+searchMem+'%'" />
+		WHERE mem_nick like #{keyword}
+		</if>
+		 ORDER BY MEM_JOIN_DATE DESC) T1 ) T2
+		WHERE RN BETWEEN #{startRownum} AND #{endRownum}
+	</select> -->
+	<!-- 상품정보 -->
+	<select id="itemInfo" resultType="map" parameterType="string">
+	select item_name, item_price, item_dur, item_sale, item_color, item_src from item where item_code = #{itemCode} 
+	</select>
+	<!-- 상품추가 -->
+	<insert id="itemInsert" parameterType="map">
+	insert into item values (#{itemCode}, #{itemName}, #{itemPrice}, #{itemDur}, #{itemSale}, #{itemColor}, #{itemSrc})
+	</insert>
+	<!-- 상품수정 -->
+	<update id="itemUpdate" parameterType="map">
+	update item set item_name = #{itemName}, item_price = #{itemPrice}, item_dur = #{itemDur}, item_sale = #{itemSale}, item_color = #{itemColor}, item_src = #{itemSrc} where item_code = #{itemCode}
+	</update>
+	<!-- 상품삭제 -->
+	<delete id="itemDelete" parameterType="string">
+	delete from item where item_code=#{itemCode}
+	</delete>
+	
+</mapper>

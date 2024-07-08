@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+	<!-- 공유 모달 -->
+    <div th:fragment="share" class="wrap-modal">
+        <div class="modal-content" >
+            <h3 th:text="${plan.areaShortName}" class="area">지역명</h3>
+            <h1 th:text="${plan.planTitle}" class="plan-title">제목</h1>
+            <form class="frm-find wfull">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+               	<input type="text" name="find" class="wfull wirte-nick" placeholder="  일정을 공유할 유저의 닉네임을 입력하세요"/>
+               	<button type="button" class="btn find" >
+                   	<img class="search-btn " src="/images/icons/search.png" alt="검색"/>
+               	</button>
+            </form>
+            <!-- 공유중인 유저 목록 -->
+            <div th:replace="~{trip/shareMember :: memlist}" ></div>
+            
+            <button type="button" class="btn confimed" ><p>확인</p></button>
+        </div><!-- modal-content -->
+    </div>	
+</html>

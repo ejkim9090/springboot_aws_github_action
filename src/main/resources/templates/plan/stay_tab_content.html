@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="wrap-stayList flex" th:fragment="wrapstaylist">
+	<th:block th:if="${not #strings.isEmpty(stayList)}">
+		<th:block th:each="stay, stayStat : ${stayList}">
+			<div class="stay-box flex">
+				<img class="stay-img" th:src="${stay.firstimage}" alt="숙소이미지" style="width: 70px; height: 70px;">
+				<div class="stay-txt">
+					<span class="stay-name" th:text="${stay.title}"  th:value="${stay.title}" style ="padding-bottom:5px; font-weight: bold;"></span> 
+					<span class="stay-address" th:text="${stay.add1}" th:value="${stay.add1}"></span>
+					<span class="stay-x" th:value="${stay.mapx}" style ="display:none"></span> 
+					<span class="stay-y" th:value="${stay.mapy}" style ="display:none"></span> 
+				</div>
+				<input type="checkbox" th:data-stayid="${stay.contentid}"
+					th:id="|stay-check${stay.contentid}|"
+					class="staycheck"
+					onclick="stayCkBtnClickHandler(this);"> 
+				<label th:for="|stay-check${stay.contentid}|"></label>
+			</div>
+		</th:block>
+		<div class="resultstayCheck">
+			<button type="button" onclick="stayMoreBtnClickHandler(this);" class="stay_more_btn">더보기</button>
+		</div>
+	</th:block>
+</div>

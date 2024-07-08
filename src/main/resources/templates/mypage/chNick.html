@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/header :: head('닉네임 변경')}"></head>
+<link th:href="@{/css/mypage/chNick.css}" rel="stylesheet" type="text/css">
+<script type="text/javascript" th:src="@{/js/mypage/chNick/loadedHandler.js}"></script>
+<script type="text/javascript" th:src="@{/js/mypage/chNick/check.js}"></script>
+<script type="text/javascript" th:src="@{/js/mypage/chNick/active.js}"></script>
+<script type="text/javascript" th:src="@{/js/mypage/chNick/move.js}"></script>
+<body>
+	<div class="header" th:insert="~{common/header :: wrap-header}"></div>
+	<div class="wrap-main">
+		<section class="flex chNick">
+			<div class="chNick title">닉네임 변경</div>
+			<div th:replace="~{member/fragment :: inputchk('', '변경할 닉네임', memNick, text, '한글 2~8자', 4)}"></div>
+			<div id="exist-nick" class="hide"><p style="color:red;">중복된 닉네임입니다.</p></div>
+			<div class="flex choose">
+				<button type="button" class="btn back">돌아가기</button>
+				<button type="button" class="btn save" disabled>저장</button>
+			</div>
+		</section>
+	</div>
+	<div class="footer" th:insert="~{common/footer :: wrap-footer}"></div>
+</body>
+</html>

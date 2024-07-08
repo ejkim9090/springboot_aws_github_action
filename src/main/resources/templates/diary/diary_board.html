@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link th:href="@{/css/diary/diary_board.css}" rel="stylesheet">
+<link th:href="@{/css/diary/diary_aside.css}" rel="stylesheet">
+<!--board.js파일  -->
+<!--  <script type="text/javascript" th:src="@{/js/diary/diary_board.js}"></script> -->
+<head th:replace="~{common/header :: head('diaryboard')}"></head>
+<script th:inline="javascript">
+	const tabcode = /*[[${tabcode}]]*/'전체';
+	console.log("tabcode:"+tabcode);
+</script>
+<script type="text/javascript" th:src="@{/js/diary/diary_board.js}"></script>
+<body>
+	<header>
+		<div class="header" th:insert="~{common/header :: wrap-header}"></div>
+	</header>
+	<!-- <aside th:insert="~{common/diary_aside :: wrap-diary-aside}"></aside> -->
+	<section>
+		<!-- 버튼 클릭 이벤트로 지역 태그 클릭 시 이동 시키기 -->
+		<div class="diary-wrap-main">
+			<!-- 사이드바 연결 -->
+			<aside th:insert="~{diary/diary_aside :: wrap-diary-aside}"></aside>
+			<div class="board-search-inner">
+				<!-- 소개 문구 -->
+				<div class="diary-introduction">
+					<span><strong> 개미들의 인기 여행지를 소개합니다.</strong></span>
+				</div>
+				<!-- 순서 옵션 -->
+				<div class="d-select">
+				<!-- onchange로 바꾸기!!!!!!!!! -->
+					<select id="sortOption" onchange="sortOptionChangeHandler(this);">
+					<option value="latest">최신순</option>
+					<option value="likes">인기순</option>
+					<option value="views">조회수</option>
+					</select>
+				</div>
+				<!-- 지역 태그 -->
+				<div th:replace="~{diary/diary_fragment :: arealist}"></div>
+				<!-- 지역 탭 -->
+				<div class="diary-tab-content">
+					<th:block th:each="num : ${#numbers.sequence(1,18)}">
+						<div th:id="'tab'+${num}">
+							<div class="wrap-diary" th:replace="~{diary/diary_area_fragment :: diaryitemlist}">	</div>
+						</div>
+					</th:block>
+				</div>
+				<!-- 글 리스트 7개씩 하고 for문으로 더보기 하기 -->
+				<div class="btn-more">
+					<button type="button"  onclick="moreBtnClickHandler(this);" class="diary_more_btn" >더보기</button>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<footer>
+		<div class="footer" th:insert="~{common/footer :: wrap-footer}"></div>
+	</footer>
+
+</body>
+
+
+</html>

@@ -1,0 +1,55 @@
+@charset "UTF-8";
+.main-wrapper .schedule-wrapper .edit-tourlist{
+	    background-color: #F7F8F9;
+}
+/* tourlist part - grid */
+.main-wrapper .edit-tourlist .spot{/*  */
+	grid-template-columns :25px 35px 165px 25px;
+	grid-template-rows :repeat(3,21px);  
+	gap:7px;
+	}
+.main-wrapper .edit-tourlist .spot>:not(:first-child){/*  */
+	align-self: center;
+}	
+/* grid-items 규격설정 */	/*  */
+.main-wrapper .edit-tourlist .spot-number{grid-column:1; grid-row: 1 ; }
+.main-wrapper .edit-tourlist .spot-staytime{grid-column:3/5; grid-row: 2 ;width:165px;} 
+.main-wrapper .edit-tourlist .spot-type{grid-column:2; grid-row: 2 ;}
+.main-wrapper .edit-tourlist .spot-title{grid-column:2/4; grid-row: 1 ; padding-top:5px;}
+.main-wrapper .edit-tourlist .spot-memo{grid-column:4; grid-row: 2 ;}
+.main-wrapper .edit-tourlist .spot-caricon{grid-column:2; grid-row: 3 ;}
+.main-wrapper .edit-tourlist .spot-move{grid-column:3; grid-row: 3 ; font-size: var(--font5);}
+.main-wrapper .edit-tourlist .spot-remove{grid-column:4; grid-row: 1 ;}
+
+.main-wrapper .edit-tourlist .spot-remove{
+	/* 모든 설정 초기화 */
+    border: none;
+    background: transparent;
+    height: 15px;
+    padding: 0;
+    width: 15px;
+}
+.main-wrapper .edit-tourlist .timerange-modal{
+	width: 120%;
+	height: 70px;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px 0 var(--color_gray) !important;
+	margin: 5px 0;
+	margin-right: 5px;
+	width: 100%;
+	font-size: var(--font5);
+	background-color: #fafafa;
+}
+.main-wrapper .edit-tourlist .timerange-modal .flex{
+	align-items: center;
+}	
+.main-wrapper .edit-tourlist .timerange-modal input{
+	width: 40px;
+	margin: 0 10px;
+}
+.main-wrapper .edit-tourlist .timerange-done {
+	margin-left: auto;
+	padding-right: 10px;
+	color: var(--color_day9_blue);
+	font-weight: bold;
+}

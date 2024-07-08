@@ -1,0 +1,52 @@
+@charset "UTF-8";
+/* 일정 */
+.main-wrapper .schedule-wrapper{
+	flex-direction:column;
+	/* width: 70%; */
+	 width: 50%;
+	padding: 0 0 0 30px;
+}
+.main-wrapper .schedule-wrapper .plan-info{
+	flex-direction: column;
+}
+.main-wrapper .schedule-wrapper .plan-title{
+	font-size: var(--font2);
+	margin: 30px 0 10px 0 ;
+}
+.main-wrapper .schedule-wrapper .plan-location{
+	margin-right : 15px;
+	font-size:var(--font3);
+} 
+.main-wrapper .schedule-wrapper .list-box{
+	height: 100%;
+	padding:10px;
+	overflow: hidden;
+}
+
+.main-wrapper .schedule-wrapper .list-box .column{
+	flex-direction: column;
+	width: 275px;
+	padding: 0 10px;
+}
+.main-wrapper .column .sub-title{
+	justify-content: space-between;
+	margin:10px 0;
+}
+.main-wrapper .sub-title .date{
+	color: var(--color_gray);
+}
+/*  scrollbar와 div무너짐 해결:flex의 상위 하위 너비지정*/
+.main-wrapper .scrollbar{    flex-direction: row; overflow: scroll;}
+.main-wrapper .tourlist .column,
+.main-wrapper .edit-tourlist .column {flex-wrap: nowrap;}
+
+.main-wrapper .tourlist .column.flex > div,
+.main-wrapper .edit-tourlist .column.flex > div {width:100%; }
+
+.main-wrapper  .column .container {	flex-direction: column;}
+
+/* 편집 */
+.main-wrapper .edit-tourlist .column {
+	border-radius: 8px;
+	padding:0 5px;
+}

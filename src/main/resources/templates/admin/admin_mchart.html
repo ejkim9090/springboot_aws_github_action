@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/header :: head('회원통계')}"></head>
+<link th:href="@{/css/admin/admin.css}" rel="stylesheet">
+<link th:href="@{/css/admin/admin_mchart.css}" rel="stylesheet">
+<!--chart.js CDN  -->
+<link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js}"  rel="stylesheet">
+<script th:src="@{https://fastly.jsdelivr.net/npm/chart.js}"></script>
+<body>
+<div class="wrap-main">
+	<div class="wrap-sidebar">
+		<img th:src="@{/images/tripant_logo_text.png}" alt="로고">
+		<div class="ad-menu"> 관리자메뉴</div>
+		<div class="ad-member">회원관리</div>
+		<div class="ad-menumember a"><a href="/admin/member">회원관리</a></div>
+		<div class="ad-menumember b"><a href="/admin/mchart">회원통계</a></div>
+		
+		<div class="ad-board">게시글 관리</div>
+		<div class="ad-menuboard a"><a href="/admin/board">전체게시글</a></div>
+		<div class="ad-menuboard b"><a href="/admin/complain">신고 게시글 관리</a></div>
+		<div class="ad-menuboard c"><a href="/admin/bchart">게시글 통계</a></div>
+		
+		<div class="ad-store">스토어 관리</div>
+		<div class="ad-menustorea a"><a href="/admin/cancel">결제취소</a></div>
+		<div class="ad-menustorea b"><a href="/admin/goods">상품관리</a></div>
+	</div>
+	
+	<div class="wrap-body">
+	<form action ="/logout" method="post">
+	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+		<div class="ad-header">
+			<div class="ad-text">회원통계</div>
+			<button type="submit" class="btn logout"><h5>로그아웃</h5></button>
+		</div>
+		<canvas id="myChart2" ></canvas>
+	</form>	
+	</div>
+	
+</div>
+			
+<script th:line="javascript" th:src="@{/js/admin/member/member_chart.js}" ></script>
+</body>
+</html>

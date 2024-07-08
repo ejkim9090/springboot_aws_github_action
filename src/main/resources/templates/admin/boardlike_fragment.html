@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<th:block th:each="memBoard:${memBoard}">
+	<ul class="col list">
+		<li th:text="${memBoard.diaryId}"></li>
+		<li th:text="${memBoard.diaryTitle}"></li>
+		<li th:text="${memBoard.memNick}"></li>
+		<li th:text="${memBoard.diaryDate}"></li>
+		<li th:text="${memBoard.diaryViews}"></li>
+		<li th:text="${memBoard.likes}"></li>
+		<li></li>
+	</ul>
+</th:block>
+</html>

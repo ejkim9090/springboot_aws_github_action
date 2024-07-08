@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mclass.store.tripant.plan.model.repostiory.PlaceRepositoryCrawling">
+	<update id="insertPlace" parameterType="java.util.List">
+	<!-- 장소 등록을 위한 mapper -->
+		merge into place t 
+		using (
+			<foreach collection="list" item="item"  separator=" UNION " >
+			select 
+				#{item.type} as type,				#{item.contentid} as contentid,
+				#{item.contenttypeid} as contenttypeid,
+				#{item.title} as title, 
+				#{item.add1} as add1, 	#{item.add2} as add2,			
+				#{item.areacode} as areacode, #{item.booktour} as booktour, #{item.sigungucode} as sigungucode, 
+			    #{item.cat1} as cat1, #{item.cat2} as cat2, #{item.cat3} as cat3, 
+			    #{item.firstimage} as firstimage, #{item.firstimage2} as firstimage2,
+			    #{item.mlevel} as mlevel, #{item.tel} as tel,
+			    #{item.mapx} as mapx, #{item.mapy} as mapy,
+				#{item.createtime} as createtime, #{item.modifiedtime} as modifiedtime, #{item.gettime} as gettime
+		    from dual
+			</foreach>
+		) s on (t.type = s.type and t.contentid = s.contentid)
+		when matched then
+		  update set 
+					  	t.title = s.title,  
+					  	t.add1 = s.add1, t.add2 = s.add2,
+					  	t.areacode = s.areacode, t.sigungucode = s.sigungucode,
+					  	t.cat1 = s.cat1, t.cat2 = s.cat2, t.cat3 = s.cat3, 
+					  	t.firstimage = s.firstimage, t.firstimage2 = s.firstimage2,  
+					    t.mapx = s.mapx, t.mapy = s.mapy,
+					    t.mlevel = s.mlevel, t.tel = s.tel,
+						t.createtime = s.createtime, t.modifiedtime = s.modifiedtime, t.gettime = s.gettime
+		when not matched then
+		  insert (  	type, contentid, 
+					  	contenttypeid, 
+					  	title, 
+					  	add1, add2, areacode, 
+					  	booktour, sigungucode, 
+					  	cat1, cat2, cat3, 
+					  	mapx, mapy,
+					  	firstimage, firstimage2,
+					  	mlevel, tel, 
+					  	createtime, modifiedtime, gettime)  
+		  values (  	s.type, s.contentid, 
+					  	s.contenttypeid, 
+					  	s.title, 
+					  	s.add1, s.add2, s.areacode,
+					  	s.booktour, s.sigungucode,
+					  	s.cat1,s.cat2,s.cat3, 
+					  	s.mapx,s.mapy,
+					  	s.firstimage, s.firstimage,
+					  	s.mlevel, s.tel,
+						s.createtime,s.modifiedtime,s.gettime)
+	</update>
+</mapper>

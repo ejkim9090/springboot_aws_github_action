@@ -1,0 +1,53 @@
+@charset "UTF-8";
+/* 장소추가 스타일 설정 */
+.main-wrapper .schedule-wrapper .spot-basket{
+	min-width: 220px;
+    max-width: 230px;
+    /* width:210px; */
+	flex-direction : column;
+}
+.main-wrapper .schedule-wrapper .spot-basket > div:first-child{
+	justify-content: space-between;
+    padding-bottom: 15px;
+}
+.main-wrapper .schedule-wrapper #add{
+    border: var(--color_day9_blue) solid 2px;
+    padding: 3px;
+    border-radius: 8px;
+    font-size: var(--font6);
+    background-color: transparent;
+}
+
+.main-wrapper .schedule-wrapper .wrap-basket{
+	/* flex-direction: column; */
+	min-height: 200px;
+	border-radius: 8px;
+	background-color: #F7F8F9;
+	box-sizing: border-box;
+	padding: 10px;
+}
+
+/* grid 및 위치 설정 */
+.main-wrapper .include-spot{
+	display:flex;
+	align-items: center;
+	justify-content:space-between;
+	padding-right:10px;
+	gap : 5px;
+	margin: 10px 0;
+	background: #fff;
+	border-radius: 8px;
+	box-sizing: border-box;
+}
+
+.main-wrapper .include-spot > div:nth-child(2){
+	font-size:var(--font5);
+	flex-direction: column;
+	justify-content:space-around;
+	overflow:hidden;
+	width:70px;
+}
+
+.main-wrapper .include-spot .spot-trashcan:hover{
+	cursor: pointer;
+}

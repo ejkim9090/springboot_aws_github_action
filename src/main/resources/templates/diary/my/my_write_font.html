@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+
+>
+<link th:href="@{/css/diary/diary_aside.css}" rel="stylesheet"
+	type="text/css">
+<link th:href="@{/css/diary/my/my_write.css}" rel="stylesheet">
+<head th:replace="~{common/header :: head('diaryboard')}">
+</head>
+<body>
+
+	<header>
+		<div class="header" th:insert="~{common/header :: wrap-header}"></div>
+	</header>
+	<section class="diary-writes-main">
+		<div class="diary-write-wrap">
+			<form id="diaryForm">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+				<table class="diary-write-table">
+					<tr>
+						<td colspan="2"><h1>나의 여행일기 남기기</h1></td>
+					</tr>
+					<tr>
+						<td>일정</td>
+					</tr>
+					<tr>
+
+
+						<td><select name="diaryPlanId"
+							class="diary-writer-select-plan">
+								<option value="">처음 생성했던 일정 이름을 골라주세요!</option>
+								<!-- Thymeleaf 반복문을 사용하여 계획 목록을 옵션으로 표시 -->
+								<option th:each="plan : ${plans}" th:value="${plan.planId}"
+									th:text="${plan.planTitle}">planTitle</option>
+						</select></td>
+
+					</tr>
+					<tr>
+						<td>제목</td>
+					</tr>
+					<tr>
+						<td><input type="text" placeholder="제목을 입력하세요"
+							name="diaryTitle"  class="diaryTitle"></td>
+					</tr>
+					
+					<tr>
+						<td>내용</td>
+					</tr>
+					<tr>
+						<td>
+
+							<div id="container">
+								<textarea id="editor" name="diaryContent"></textarea>
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td>테마 및 공개 여부</td>
+					</tr>
+					<tr>
+						<td class="inline-wrapper">
+							<div class="inline-element">
+								<select name="diaryTheme" class="diary-writer-select-theme">
+									<option value="theme">테마를 적용하고 싶다면?</option>
+									<option value="theme1">테마1</option>
+									<option value="theme2">테마2</option>
+									<option value="theme3">테마3</option>
+									<option value="theme4">테마4</option>
+									<option value="theme5">테마5</option>
+									<option value="theme6">테마6</option>
+									<option value="theme7">테마7</option>
+									<option value="theme8">테마8</option>
+									<option value="theme9">테마9</option>
+									<option value="theme10">테마10</option>
+								</select>
+							</div>
+							<div class="inline-element2">
+								<label><input type="radio" name="diaryOpen"
+									value="private"> 비공개</label> <label><input type="radio"
+									name="diaryOpen" value="public" checked="checked"> 공개</label>
+							</div>
+						</td>
+					</tr>
+					<tr class="diary_btn_submit">
+						<td><button type="button" value="등록" class="btn_submit">등록</button></td>
+					</tr>
+				</table>
+
+			</form>
+		</div>
+	</section>
+
+	<footer>
+		<div class="footer" th:insert="~{common/footer :: wrap-footer}"></div>
+	</footer>
+
+	<!-- ckeditor5 super-build js 파일 순서대로 적용 ! 중요 -->
+	<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/super-build/ckeditor.js"></script>
+	<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+	<script type="text/javascript" th:src="@{/js/diary/editor_font.js}"></script>
+
+	<!--글 등록  -->
+	<script type="text/javascript" th:src="@{/js/diary/diary_write.js}"></script>
+
+</body>
+</html>

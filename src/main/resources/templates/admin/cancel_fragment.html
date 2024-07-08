@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div class="wrap-list" th:fragment="cancelist">
+<div class="ad-search">
+				<input class="search" type="text" name="search" placeholder="회원검색">
+				<button type="button" class="btn-search" onclick="searchBtnHandler(this);"><img th:src="@{/images/icons/search.png}" alt="검색"/></button>
+			</div>
+			
+			<div class="ad-content">
+				<ul class="memberlist">
+					<li>	
+						<ul class="col">
+							<li>주문번호</li>
+							<li>닉네임</li>
+							<li>이메일</li>
+							<li>상품명</li>
+							<li>구매일자</li>
+							<li>취소 여부</li>
+						</ul>
+					</li>
+					<li id="list">
+						<ul class="col list" th:each="map : ${list.map}" th:data-id="${map.buyId}" th:data-email="${map.memEmail}">
+							<li th:text="${map.buyId}"></li>
+							<li th:text="${map.memNick}"></li>
+							<li th:text="${map.memEmail}"></li>
+							<li th:text="${map.itemName}"></li>
+							<li th:text="${map.buyDate}"></li>
+							<li>
+								<button type="button" class="btn cancel"><h5>결제취소</h5></button>
+								<input type="hidden" th:value="${map.itemCode}">
+							</li>
+						</ul>
+					</li>
+				</ul>	
+			</div> 
+			
+			<!-- paging --> 
+		<div style="text-align: center;">
+			<div class="paging_wrap">
+			<th:block th:if="${list.totalPageCount > 0}">
+				<div th:if="${list.startPageNum > 1}" class="goprepage">
+		            <button type="button" onclick="searchBtnHandler(this);" class="btn-gopage" th:data-targetpage="${list.startPageNum - 1}">&lt;</button>
+		        </div>
+		        <div th:each="page :  ${#numbers.sequence(list.startPageNum, list.endPageNum)}">
+			        <div th:if="${list.currentPage == page}" class="current_page">
+			            <button type="button" disabled class="btn-gopage" th:data-targetpage="${page}" th:text="${page}"></button>
+			        </div>
+			        <div th:if="${list.currentPage != page}" class="gopage">
+			            <button type="button" onclick="searchBtnHandler(this);" class="btn-gopage" th:data-targetpage="${page}" th:text="${page}"></button>
+			        </div>
+		        </div>
+		        
+		        <div th:if="${list.endPageNum < list.totalPageCount}">
+		            <button type="button" onclick="searchBtnHandler(this);" th:data-targetpage="${list.endPageNum + 1}" class="btn-gopage">&gt;</button>
+		        </div>	
+		        </th:block>		
+			</div>
+		</div>
+</div>
+</html>

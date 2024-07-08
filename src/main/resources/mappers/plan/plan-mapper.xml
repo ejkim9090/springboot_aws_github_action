@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mclass.store.tripant.plan.model.repostiory.PlanRepository">
+	<!-- 그 외에 일정에 필요한 mapper -->
+	<select id="selectPlanCount" resultType="_int">
+		SELECT COUNT(*) FROM PLAN
+	</select>
+
+	<select id="selectMemCount" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER WHERE MEM_ROLE='ROLE_MEM'
+	</select>
+
+	<select id="selectAreaNameList" resultType="AreaNameEntity">
+		SELECT AREA_CODE, AREA_NAME, AREA_SHORT_NAME, AREA_ENG_NAME, AREA_FILE_NAME
+		FROM AREA ORDER BY AREA_CODE
+	</select>
+
+	<select id="selectAreaFindList" parameterType="string" resultType="AreaNameEntity">
+		SELECT AREA_CODE, AREA_NAME, AREA_SHORT_NAME,AREA_ENG_NAME,AREA_FILE_NAME 
+		FROM AREA 
+		WHERE AREA_NAME LIKE '%'||#{findArea}||'%'
+		OR AREA_SHORT_NAME LIKE '%'||#{findArea}||'%'
+		OR AREA_ENG_NAME LIKE '%'||#{findArea}||'%'
+	</select>
+	
+	<select id="selectAreaInfo" parameterType="_int" resultType="AreaEntity">
+		SELECT * FROM AREA WHERE AREA_CODE = #{areaCode}
+	</select>
+
+	<select id="selectAreaShortName"  parameterType="_int" resultType="string">
+		SELECT AREA_SHORT_NAME FROM AREA WHERE AREA_CODE = #{areaCode}
+	</select>
+
+	<select id="selectTypeList" parameterType="_int" resultType="PlaceboxEntity">
+		SELECT * FROM (
+		SELECT ROWNUM NUM, SPOT.*
+		FROM(
+			SELECT TYPE, CONTENTID ,ADD1, AREACODE, NVL(FIRSTIMAGE,'/images/icons/spot_sample.png') as FIRSTIMAGE, MAPX, MAPY, MLEVEL, TEL, TITLE
+			FROM PLACE 
+			WHERE AREACODE=#{areaCode} AND TYPE = #{placeType}  
+			ORDER BY CONTENTID) SPOT
+		)
+		WHERE NUM <![CDATA[<=]]> #{maxNum}
+	</select>
+	
+	<select id="selectSpotFindList" parameterType="map" resultType="PlaceboxEntity">
+		SELECT * FROM (
+		SELECT ROWNUM NUM, SPOT.*
+		FROM(
+			SELECT TYPE, CONTENTID ,ADD1, AREACODE, NVL(FIRSTIMAGE,'/images/icons/spot_sample.png') as FIRSTIMAGE, MAPX, MAPY, MLEVEL, TEL, TITLE 
+			FROM PLACE 
+			WHERE AREACODE=#{areaCode} 
+			AND TYPE IN (1,2,3,4)
+			AND TITLE LIKE '%'||#{findArea}||'%' ORDER BY CONTENTID ) SPOT
+		)
+		WHERE NUM <![CDATA[<=]]> #{maxNum}
+	</select>
+	
+	<select id="selectStayFindList" parameterType="map" resultType="PlaceboxEntity">
+		SELECT * FROM (
+		SELECT ROWNUM NUM, STAY.*
+		FROM(
+			SELECT TYPE, CONTENTID ,ADD1, AREACODE, NVL(FIRSTIMAGE,'/images/icons/spot_sample.png') as FIRSTIMAGE, MAPX, MAPY, MLEVEL, TEL, TITLE 
+			FROM PLACE 
+			WHERE AREACODE=#{areaCode} 
+			AND TYPE IN (5,6)
+			AND TITLE LIKE '%'||#{findArea}||'%' ORDER BY CONTENTID ) STAY
+		)
+		WHERE NUM <![CDATA[<=]]> #{maxNum}
+	</select>
+	
+	<select id="selectAreaPoint" parameterType="_int" resultType="AreaPointEntity">
+		SELECT AREA_X, AREA_Y FROM AREA WHERE AREA_CODE = #{areaCode}
+	</select>
+</mapper>

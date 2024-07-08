@@ -1,0 +1,149 @@
+@charset "UTF-8";
+
+
+.wrap-body {
+	width:100%;
+}
+
+.wrap-body .ad-content>ul>li:first-child{
+	 text-align: center;
+	 /* 수직정렬 */
+	 vertical-align:middle;  
+}
+
+.wrap-body .ad-content{
+	display:flex;
+	width:100%;
+}
+
+ .wrap-body .ad-search .search{
+	width:95%;
+	border-radius:20px;
+	height:30px;
+	border: solid black 1px;
+	margin:40px 0 20px 30px; 
+} 
+
+.wrap-body .ad-content .memberlist{
+	/* margin-top: 25px; */
+	margin: 0 auto;
+	width:100%;
+}
+
+.wrap-body .ad-content .col{
+  	display:flex;
+  	padding:15px 0 15px 0;  
+  	border-bottom:1px solid black;
+  	align-items:center;
+} 
+
+.wrap-body .ad-content .list>li{
+	 margin:15px 0 15px 0; 
+	
+}
+
+.boardlist> ul>li{
+	 float:left;  
+	 text-align:center; 
+}
+
+.memberlist > li >ul{
+	 clear:both;
+	/*   padding:0px auto; 
+     position:relative;  */
+}
+
+.memberlist > li> ul >li{
+	 float:left;
+	 vertical-align:baseline;
+	 text-align: center;
+}
+
+.memberlist > li> .col >li:first-child{
+	width:10%;
+}
+.memberlist > li> .col >li:first-child+li{
+	width:10%;
+}
+.memberlist > li> .col >li:first-child+li+li{
+	width:10%;
+}
+.memberlist > li> .col >li:first-child+li+li+li{
+	width:10%;
+}
+.memberlist > li> .col >li:first-child+li+li+li+li{
+	width:10%;
+}
+.memberlist > li> .col >li:first-child+li+li+li+li+li{
+	width:10%;
+}
+.memberlist > li> .col >li:first-child+li+li+li+li+li+li{
+	width:30%;
+}
+.memberlist > li> .col >li:first-child+li+li+li+li+li+li+li{
+	width:10%;
+}
+
+/* 상품추가버튼 */
+.col .btn.insert{
+	border-radius:8px;
+	border:solid black 1px;
+	height:35px;
+	width:80px;
+	background-color:white;
+}
+
+/* 상품추가 창 */
+.swal2-container *{
+	font-family: "Binggrae";
+}
+.flex{
+	display: flex;
+}
+.item-insert, .item-update{
+	flex-direction: column;
+	row-gap: 20px;
+}
+.item-info{
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+	font-size: var(--font4);
+}
+.item-info input{
+	box-sizing: border-box;
+	border-radius: 8px;
+	padding: 4px 8px;
+	border: 1px solid black;
+}
+
+/*수정버튼 */
+.col.list .btn{
+	border-radius:8px;
+	border:solid black 1px;
+	height:30px;
+	width:55px;
+	background-color:white;
+}
+/* 삭제버튼 */
+.col.list .btn.delete{
+	margin-left:10px;
+}
+
+/* 찾기버튼 */
+.wrap-body .ad-search{
+	position:relative;
+}
+
+.wrap-body .ad-search .btn-search{
+	border: 0;
+	background-color: white;
+	position: absolute;
+	top: 49%;
+    right:5%;
+}
+
+.paging_wrap {
+	display: flex;
+	justify-content: center;
+}

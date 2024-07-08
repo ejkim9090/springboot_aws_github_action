@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link th:href="@{/css/diary/diary_aside.css}" rel="stylesheet"
+	type="text/css">
+<link th:href="@{/css/diary/my/my_board.css}" rel="stylesheet">
+<head th:replace="~{common/header :: head('diaryboard')}"></head>
+<script type="text/javascript" th:src="@{/js/diary/diary_my_board.js}"></script>
+
+<body>
+	<header>
+		<div class="header" th:insert="~{common/header :: wrap-header}"></div>
+	</header>
+	<section>
+		<div class="mydiary-mian-wrap">
+		<!-- 소개 문구 -->
+				<div class="diary-introduction">
+					<span><strong> 나의 소중한 추억을 꺼내보아요.</strong></span>
+				</div>
+			<div class="mydiary-wrap">
+				<!-- 사이드바 연결 -->
+				<aside th:insert="~{diary/diary_aside :: wrap-diary-aside}"></aside>
+				<!-- 나만의 글 가져오기   -->
+				<div class="board-list">
+					<div class="wrap_content" th:replace="~{diary/my/board_more_fragment :: board_more}" ></div>
+				</div>
+				<div class="btn-more">
+					<button type="button" onclick="moreBtnClickHandler(this);"
+						class="mydiary_more_btn">더보기</button>
+				</div>
+			</div>
+	</section>
+
+	<footer>
+		<div class="footer" th:insert="~{common/footer :: wrap-footer}"></div>
+	</footer>
+</body>
+</html>

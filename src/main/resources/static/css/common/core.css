@@ -1,0 +1,186 @@
+@charset "UTF-8";
+
+:root {
+	--color_day1_red: #E54B4B;
+	--color_day2_purple: #C943CC;
+	--color_day3_pink: #FFA7C5;
+	--color_day4_orange: #E5794B;
+	--color_day5_skyblue: #4BC9E5;
+	--color_day6_yellow: #E5C34B;
+	--color_day7_lime: #CDF263;
+	--color_day8_green: #2EB67D;
+	--color_day9_blue: #4B76E5;
+	--color_day10_navy: #13358F;
+	
+	--color_light_gray: #F6F6F6;
+	--color_gray: #D4D4D4;
+	
+	--font1: 25px;
+	--font2: 20px;
+	--font3: 17px;
+	--font4: 15px;
+	--font5: 13px;
+	--font6: 11px;
+	
+	--img_spot_ck_af : url("/images/plan/spot_ck_af.png");
+	--img_spot_ck_bf : url("/images/plan/spot_ck_bf.png");
+	--img_stay_ck_af : url("/images/plan/stay_ck_af.png");
+	
+	/* location */
+	--img_cir_01_red : url("/images/location/circle1_red.png");
+	--img_cir_02_purple : url("/images/location/circle2_purple.png");
+	--img_cir_03_pink : url("/images/location/circle3_pink.png");
+	--img_cir_04_orange : url("/images/location/circle4_orange.png");
+	--img_cir_05_skyblue : url("/images/location/circle5_skyblue.png");
+	--img_cir_06_yellow : url("/images/location/circle6_yellow.png");
+	--img_cir_07_lime : url("/images/location/circle7_lime.png");
+	--img_cir_08_green : url("/images/location/circle8_green.png");
+	--img_cir_09_blue : url("/images/location/circle9_blue.png");
+	--img_cir_10_navy : url("/images/location/circle10_navy.png");
+	
+	--img_loc_01 : url("/images/location/location1.png");
+	--img_loc_02 : url("/images/location/location2.png");
+	--img_loc_03 : url("/images/location/location3.png");
+	--img_loc_04 : url("/images/location/location4.png");
+	--img_loc_05 : url("/images/location/location5.png");
+	--img_loc_06 : url("/images/location/location6.png");
+	--img_loc_07 : url("/images/location/location7.png");
+	--img_loc_08 : url("/images/location/location8.png");
+	--img_loc_09 : url("/images/location/location9.png");
+	--img_loc_10 : url("/images/location/location10.png");
+	
+	/* icons */
+}
+
+ul, ol, li {
+	/* 속성 리셋 */
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+
+a {
+	/* a 속성 리셋 */
+	color: black;
+	text-decoration: none;
+	line-height: 120%;
+}
+
+h1 {
+	font-family: 'Binggrae';
+	font-size: 25px;
+	font-weight: bold;
+	line-height: 120%;
+}
+
+h2 {
+	font-family: 'Binggrae';
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 120%;
+}
+
+h3 {
+	font-family: 'Binggrae';
+	font-size: 17px;
+	font-weight: bold;
+	line-height: 120%;
+}
+
+h4 {
+	font-family: 'Binggrae';
+	font-size: 15px;
+	line-height: 120%;
+}
+
+h5 {
+	font-family: 'Binggrae';
+	font-size: 13px;
+	line-height: 120%;
+}
+
+h6 {
+	font-family: 'Binggrae';
+	font-size: 11px;
+	line-height: 120%;
+}
+
+
+p {
+	font-family: 'Binggrae';
+	line-height: 120%;
+}
+
+/* 공통폰트 */
+@font-face {
+    font-family: 'Binggrae';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Binggrae.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* @font-face {
+	font-family: 'GangwonEdu_OTFLightA';
+	src: url('/fonts/GangwonEdu_OTFLightA.ttf') format('woff'); 
+	font-weight: normal;
+	font-style: normal;
+} */
+
+
+/* 구매폰트 */
+/*밑미 폰트*/
+@font-face {
+    font-family: 'Ownglyph_meetme-Rg';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/Ownglyph_meetme-Rg.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+/*온글잎 매일옥자체*/
+@font-face {
+    font-family: 'Ownglyph_Dailyokja-Rg';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403@1.0/Ownglyph_Dailyokja-Rg.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+/*잉크립퀴드체*/
+@font-face {
+    font-family: 'InkLipquid';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/InkLipquid.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/*제주돌담체*/
+@font-face {
+    font-family: 'InkLipquid';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/InkLipquid.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/*둥근모꼴+ Fixedsys*/
+@font-face {
+     font-family: 'DungGeunMo';
+     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
+}
+/*코트라 희망체*/
+@font-face {
+    font-family: 'KOTRAHOPE';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+/*교보손글씨 2019*/
+@font-face {
+    font-family: 'KyoboHand';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/KyoboHand.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/*산돌 삼립호빵체 Outline*/
+@font-face {
+    font-family: 'SDSamliphopangche_Outline';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}

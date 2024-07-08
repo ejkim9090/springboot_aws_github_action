@@ -1,0 +1,137 @@
+@charset "UTF-8";
+
+/* 글 상세 내용 레이아웃 */
+.myread-wrap {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	width: 960px;
+	margin: 80px auto 40px;
+	padding: 20px;
+	height: auto;
+	align-items: center;
+	font-family: 'Binggrae';
+}
+
+/* 글 배경 */
+.diary-list {
+	background: #f9f9f9;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	width: 100%;
+	min-height: 500px; /*내용 세로 길이 고정  */
+	margin-bottom: 20px;
+}
+
+.diary-list .co {
+	display: flex;
+	flex-direction: column;
+	row-gap: 30px;
+}
+
+.menubar {
+	text-align: right;
+}
+
+/* 메뉴 스타일 */
+.menu {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.menu>li {
+	display: inline-block;
+	position: relative;
+}
+
+.menu>li>a {
+	display: block;
+}
+
+.submenu {
+	display: none;
+	position: absolute;
+	top: 30px;
+	right: 0;
+	background: white;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+	list-style: none;
+	padding: 10px;
+	margin: 0;
+	border-radius: 5px;
+}
+
+.menu>li:hover .submenu {
+	display: block;
+}
+
+.submenu>li {
+	margin: 0;
+	padding: 0;
+}
+
+.submenu>li>a {
+	display: block;
+	padding: 5px 10px;
+	color: #333;
+	text-decoration: none;
+	transition: background 0.3s;
+}
+
+.submenu>li>a:hover {
+	background: #f1f1f1;
+}
+
+.diary-title {
+	font-size: 1.8em;
+	margin-bottom: 10px;
+	border-bottom: 2px solid #333;
+	padding-bottom: 10px;
+}
+
+/* 조회수와 좋아요 하트 스타일 */
+.actions {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	padding: 10px 20px;
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+/* 조회수  */
+.diary-view {
+	display: flex;
+	gap: 10px;/* 간격 여백  */
+}
+
+.diary-like {
+	display: flex;
+	align-items: center;
+	gap: 10px; /* 간격 여백  */
+}
+
+.like-icon {
+	width: 30px;
+	cursor: pointer;
+}
+
+.diary-date-wrap, .diary-MemEmail-wrap {
+	display: flex;
+	column-gap: 20px;
+}
+
+.diary-content-wrap {
+	display: flex;
+	overflow: hidden;/* 글 스크롤바 안보이게 */
+}
+
+.writer {
+	position: relative;
+	left: 320px;
+	bottom: 32px;
+}

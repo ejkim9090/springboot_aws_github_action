@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ee1c53ff7e4c7508a382a4c4e7af76e8"></script>
+<link rel="stylesheet" th:href="@{/css/plan/plan_layout.css}">
+<link rel="stylesheet" th:href="@{/css/plan/plan_day_modal.css}">
+<link rel="stylesheet" th:href="@{/css/plan/plan_day_layout.css}">
+<link rel="stylesheet" th:href="@{/css/plan/plan_spot_layout.css}">
+<link rel="stylesheet" th:href="@{/css/plan/plan_spot_check_layout.css}">
+<link rel="stylesheet" th:href="@{/css/plan/plan_stay_layout.css}">
+<link rel="stylesheet" th:href="@{/css/plan/plan_stay_check_layout.css}">
+<link rel="stylesheet" th:href="@{/css/plan/plan_stay_modal.css}">
+<head th:replace="~{common/header :: head('일정 만들기')}"></head>
+<script th:src="@{/js/plan/plan_make.js}"></script>
+<script th:src="@{/js/plan/plan_spot.js}"></script>
+<script th:src="@{/js/plan/plan_stay.js}"></script>
+<script type="text/javascript"
+	src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<body>
+	<div class="modal show">
+		<div class="modal-popup">
+			<div>
+				<h2>여행 기간이 어떻게 되시나요?</h2>
+				<h4>여행 일자는 최대 10일 까지 설정 가능합니다.</h4>
+				<h5>아래를 클릭하여 여행 기간을 설정해주세요.</h5>
+				<div class="wrap-calendar">
+					<form method="post"  onsubmit="return false;">
+						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
+						<input type="text" id="daterange" />
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="stay-modal">
+		<div class="stay-modal-popup">
+			<h3 style="margin: 15px 0;">숙박하실 날짜를 선택해주세요.</h3>
+			<h3 class="modal-stay-name" style="margin: 10px 0 5px 0;">메종 글래드 제주</h3>
+			<h6 style="color:var(--color_day9_blue); margin-bottom:20px;">숙소는 일정 순서의 가장 마지막에 배치됩니다</h6>
+			<div class="modal-stay-list">
+			</div>
+			<div class="wrap-modal-btn">
+				<button type="button" class="modal-all btn" onclick="stayModalAllBtnClickHandler();">전체 선택</button>
+				<button type="button" class="modal-done btn"  onclick="stayModalDoneBtnClickHandler();">완료</button>
+			</div>
+		</div>
+	</div>
+	<div class="main-wrapper">
+		<aside class="nav-wrapper flex">
+			<nav class="nav flex">
+				<a><img class="logo" th:src="@{/images/tripant_logo_text.png}"></a>
+				<ul class="tab-nav">
+					<li><a class="nav-1" href="#tab01"> step 01<br>날짜확인
+					</a></li>
+					<li><a class="nav-2" href="#tab02"> step 02<br>장소선택
+					</a></li>
+					<li><a class="nav-3" href="#tab03"> step 03<br>숙소설정
+					</a></li>
+				</ul>
+			</nav>
+			<div class="plan_next flex">
+				<button type="button" class="next btn">다음</button>
+			</div>
+		</aside>
+		<div class="tab-content">
+			<div id="tab01">
+				<div class="flex">
+					<div class="plan-areacode" th:text="${session.areaCode}"
+						th:value="${session.areaCode}" style="display: none;"></div>
+					<div class="plan-title" th:text="${session.planTitle}"></div>
+					<div class="plan-location" th:text="${session.areaShortName}"></div>
+					<div class="wrap-priod">
+						<h4 class="plan-priod">먼저 기간을 입력해주세요</h4>
+						<img class="plan-priod" th:src="@{/images/icons/calendar.png}" alt="달력">
+					</div>
+					<h5 class="plan-timeEx"></h5>
+					<div class="wrap-time">
+						<form id="timeForm" onsubmit="return false;">
+						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+							<ul></ul>
+						</form>
+					</div>
+					<button type="button" form="timeForm" class="time_btn" style="display: none;">시간 설정 완료</button>
+				</div>
+			</div>
+			<div id="tab02">
+				<div class="spot first">
+					<div class="plan-title" th:text="${session.planTitle}"></div>
+					<div class="plan-priod"></div>
+					<h3>장소 선택</h3>
+					<form id="frm-find-spot" onsubmit="return false;"> 
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+						<input type="text" id="find-spot" name="find-spot" placeholder="&nbsp;장소명을 입력하세요">
+						<button type="button" class="btn find-spot">
+							<img class="search-btn" th:src="@{/images/icons/search.png}" alt="찾기">
+						</button>
+					</form>
+					<ul class="spot-tab-nav">
+						<li><a href="#spot-tab01">관광지</a></li>
+						<li><a href="#spot-tab02">문화시설</a></li>
+						<li><a href="#spot-tab03">쇼핑</a></li>
+						<li><a href="#spot-tab04">음식점</a></li>
+					</ul>
+					<div class="spot-tab-content scrollbar">
+						<div id="spot-tab01">
+							<div class="wrap-spotList" th:replace="~{plan/spot_tab_content :: wrapspotlist}"></div>
+						</div>
+						<div id="spot-tab02">
+							<div class="wrap-spotList" th:replace="~{plan/spot_tab_content :: wrapspotlist}"></div>
+						</div>
+						<div id="spot-tab03">
+							<div class="wrap-spotList" th:replace="~{plan/spot_tab_content :: wrapspotlist}"></div>
+						</div>
+						<div id="spot-tab04">
+							<div class="wrap-spotList" th:replace="~{plan/spot_tab_content :: wrapspotlist}"></div>
+						</div>
+					</div>
+				</div>
+				<div class="spot second">
+					<div class="wrap-selected-spot">
+						<div class="selected-spot-info">
+							<p class="count-spot">0</p>
+							<p class="time-spot"></p>
+							<p class="reset-spot" onclick="spotResetBtnClickHandler();">장소 설정 초기화</p>
+						</div>
+						<div class="selected-spot-list scrollbar"></div>
+					</div>
+				</div>
+			</div>
+			<div id="tab03">
+				<div class="stay first">
+					<div class="plan-title" th:text="${session.planTitle}"></div>
+					<div class="plan-priod"></div>
+					<h3>장소 선택</h3>
+					<form id="frm-find-stay" onsubmit="return false;">
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+						<input type="text" id="find-stay" name="find-stay" placeholder="&nbsp;장소명을 입력하세요">
+						<button type="button" class="btn find-stay">
+							<img class="search-btn" th:src="@{/images/icons/search.png}" alt="찾기">
+						</button>
+					</form>
+					<ul class="stay-tab-nav">
+						<li><a href="#stay-tab01">숙박</a></li>
+						<li><a href="#stay-tab02">캠핑장</a></li>
+					</ul>
+					<div class="stay-tab-content scrollbar">
+						<div id="stay-tab01">
+							<div class="wrap-stayList" th:replace="~{plan/stay_tab_content :: wrapstaylist}"></div>
+						</div>
+						<div id="stay-tab02">
+							<div class="wrap-stayList" th:replace="~{plan/stay_tab_content :: wrapstaylist}"></div>
+						</div>
+					</div>
+				</div>
+				<div class="stay second">
+					<div class="wrap-selected-stay">
+						<div class="selected-stay-info">
+							<p class="count-stay">0</p>
+							<p class="time-stay">0일 / 0일</p>
+							<p class="reset-stay" onclick="stayResetBtnClickHandler();">숙소 설정 초기화</p>
+						</div>
+						<div class="explan-stay">
+							<p>숙소를 설정하기 않으셔도 위치를 기반으로 숙소를 자동으로 넣어 일정을 생성합니다.</p>
+						</div>
+						<div class="selected-stay-list scrollbar"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="map-wrapper">
+			<div id="map"></div>
+		</div>
+	</div>
+	<script th:src="@{/js/plan/plan_map.js}"></script>
+	<script th:src="@{/js/plan/plan_calendar.js}"></script>
+	<script th:src="@{/js/plan/plan_spot_check.js}"></script>
+	<script th:src="@{/js/plan/plan_stay_check.js}"></script>
+</body>
+</html>

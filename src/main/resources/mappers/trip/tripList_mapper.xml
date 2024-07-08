@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mclass.store.tripant.trip.model.repository.TripListRepository">
+	
+	<!-- 여행목록 -->
+		<select id="selectTripList" parameterType="string" resultType="TripListEntity">
+			select a.area_short_name area_short_name, a.area_file_name area_file_name ,t1.*
+			from area a join (select p.*, pm.plan_mem_role from plan_member pm join plan p on(pm.plan_id = p.plan_id) where pm.mem_email=#{memEmail} and plan_delete_day is null) t1
+			on a.area_code = t1.plan_area_code order by plan_id desc
+		</select>
+		
+	<!-- 삭제 -->	
+		<update id="delete" parameterType="int" >
+			UPDATE PLAN SET plan_delete_day = SYSDATE WHERE plan_id = #{planId}
+		</update>
+		
+	<!-- 유저검색 -->
+		<select id="find" parameterType="map" resultType="TripShareEntity">
+			select mem_nick, plan_id, plan_mem_role from plan_member join member using (mem_email) where plan_id = #{planId} and plan_mem_role = 0 and mem_nick like '%${findNick}%' and not mem_email = #{memEmail}
+			union
+			select mem_nick, null, null from member where mem_role in ('ROLE_MEM', 'ROLE_VIP') and mem_nick like '%${findNick}%'
+			minus
+			select mem_nick, null, null from member join plan_member using (mem_email) where plan_id = #{planId}
+		</select>	
+		
+	<!-- 공유 중인 유저 -->	
+		<select id="share" parameterType="map" resultType="TripShareEntity">
+			select mem_nick, plan_id, plan_mem_role from plan_member join member using (mem_email) where plan_id = #{planId} and plan_mem_role = 0 and not mem_email = #{memEmail}
+		</select>
+		
+	<!-- 유저 추가-->		
+		<insert id="add" parameterType="map" >
+			insert into plan_member values (#{planId},(select mem_email from member where mem_nick=#{addNick}),'0')
+		</insert>
+
+	<!-- 유저 삭제-->	
+		<delete id="remove">
+			delete from plan_member where plan_id = #{planId} and mem_email=(select mem_email from member where mem_nick=#{removeNick})
+		</delete>
+		
+</mapper>

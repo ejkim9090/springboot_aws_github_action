@@ -1,0 +1,72 @@
+@charset "UTF-8";
+.wrap-main {
+	width: 960px;
+	margin: 120px auto;
+	/* font-family: 'Binggrae'; */
+}
+
+.wrap-main * {
+	font-family: 'Binggrae';
+}
+
+.wrap-main .flex.pwd {
+	width: 360px;
+	margin: 0 auto;
+	flex-direction: column;
+	row-gap: 20px;
+	padding: 30px 20px;
+	background-color: var(--color_light_gray);
+	border-radius: 10px;
+}
+
+.wrap-main .btn {
+	cursor: pointer;
+	border-radius: 8px;
+	border: 0;
+	background-color: black;
+	color: white;
+	padding: 5px 10px;
+}
+
+.wrap-main .flex {
+	display: flex;
+}
+
+.wrap-main .hide {
+	display: none;
+}
+
+.wrap-main .title {
+	font-size: var(--font1);
+}
+
+.wrap-main .inputbtn {
+	width: 100%;
+}
+
+.wrap-main .inputbtn input, .wrap-main .inputchk input {
+	box-sizing: border-box;
+}
+
+.wrap-main .inputbtn1, .wrap-main .inputchk1 {
+	width: 70%;
+}
+
+.wrap-main .inputbtn1 input, .wrap-main .inputchk1 input {
+	width: 100%;
+}
+
+.wrap-main .inputbtn2, .wrap-main .inputchk2 {
+	width: 30%;
+	display: flex;
+	justify-content: center;
+}
+
+.wrap-main .back {
+	text-align: center;
+	margin-top: 10px;
+}
+
+.wrap-main .btn.set {
+	width: 100%;
+}

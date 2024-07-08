@@ -1,0 +1,98 @@
+@charset "UTF-8";
+
+/*모달 팝업 영역 스타일링*/
+.main-wrapper .wrap-modal {
+	/*팝업 배경*/
+	display: none; /*평소에는 보이지 않도록*/
+	position: relative;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background: rgba(0, 0, 0, 0.1);
+	z-index: 100;
+	position: fixed;
+}
+
+/*팝업*/
+.wrap-modal .modal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 30px;
+	background: #ffffff;
+	border-radius: 20px;
+	width:500px;
+	height: 450px;
+	justify-content: center;
+}
+
+/* grid 설정 */
+.wrap-modal .modal-content {
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr 1fr 1fr 6fr 1fr;
+	gap: 10px;
+	place-content: space-around stretch; /* 아이템 그룹 세로정렬, 가로정렬 */
+}
+
+/* grid item 위치 설정 및 검색창 스타일링*/
+.wrap-modal .modal-content .area{
+	grid-column:1;
+	grid-row:1;
+}
+.wrap-modal .modal-content .plan-title{
+	grid-column:1;
+	grid-row:2;
+}
+.wrap-modal .modal-content .frm-find{
+	grid-column:1;
+	grid-row:3;
+	display: flex;
+	flex-wrap: nowrap;
+	position: relative;
+}
+.wrap-modal .modal-content .memlist{
+	grid-column:1;
+	grid-row:4;
+}
+.wrap-modal .modal-content .confimed{
+	grid-column:1;
+	grid-row:5;
+}
+.wrap-modal .modal-content .frm-find input,
+.wrap-modal .modal-content .frm-find input:active{
+    border-radius: 8px;
+    border: none;
+	background-color: var(--color_light_gray);
+	font-size: var(--font4);
+	height: 30px;
+}
+.wrap-modal .modal-content .frm-find .find{
+    border: none;
+   	background-color: var(--color_light_gray);
+	position: absolute;
+    top: 20%;
+    right:1%;
+}
+/* item 스타일 설정  */
+.wrap-modal .modal-content .confimed{
+	font-size: var(--font3)
+}
+.wrap-modal .modal-content .memlist{
+	flex-direction: column;
+	overflow: auto;
+}
+.wrap-modal .modal-content .memlist .memNick{
+	justify-content: space-between;
+	padding: 2px 60px;
+}
+/* button 스타일링 */
+.wrap-modal .memlist .add{
+	border:solid black 1px;;
+	background-color: white;
+	color:black;
+}
+

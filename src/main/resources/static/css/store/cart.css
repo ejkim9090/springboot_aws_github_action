@@ -1,0 +1,131 @@
+@charset "utf-8";
+
+.wrap-main {
+	width: 960px;
+	margin: 100px auto;
+	/* padding: 0 240px; */
+	position: relative;
+}
+
+.wrap-main * {
+	font-family: 'Binggrae';
+}
+
+.wrap-main .btn {
+	cursor: pointer;
+	border-radius: 8px;
+	border: 0;
+	background-color: black;
+	color: white;
+	padding: 5px 10px;
+}
+
+.wrap-main .btn:disabled {
+	background-color: lightgray;
+	color: white;
+}
+
+.wrap-main .hide {
+	display: none;
+}
+
+.wrap-main .flex {
+	display: flex;
+	row-gap: 10px;
+}
+
+.wrap-main .flex.cart {
+	flex-direction: column;
+	width: 100%;
+}
+
+.wrap-main .checked {
+	background-color: var(--color_light_gray);
+	font-size: var(--font3);
+	line-height: 2em;
+	padding: 0 10px;
+	border-radius: 10px;
+}
+
+.wrap-main .title {
+	font-size: var(--font1);
+	margin-top: 15px;
+}
+
+.wrap-main .item-info.flex {
+	margin-top: 10px;
+	align-items: center;
+}
+
+.wrap-main .cart-list.empty {
+	font-size: var(--font1);
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+.wrap-main .cart-info.flex {
+	border-top: 1px solid lightgray;
+	padding: 10px 0;
+	align-items: center;
+}
+
+.wrap-main .item-info.flex>div, .wrap-main .cart-info.flex>div {
+	padding: 5px 10px;
+	width: 160px;
+	line-height: 2em;
+	font-size: var(--font3);
+}
+
+.wrap-main .item-info.flex .item-name, .wrap-main .cart-info.flex .cart-name
+	{
+	width: 640px;
+}
+
+.wrap-main .item-info.flex div:nth-child(n+2), .wrap-main .cart-info.flex div:nth-child(n+2)
+	{
+	text-align: center;
+}
+
+/* 사이드바 */
+.wrap-main aside.sidebar {
+	position: fixed;
+	border: 1px solid black;
+	border-radius: 10px;
+	background-color: white;
+	left: 20px;
+}
+
+.wrap-main div.sidebar {
+	flex-direction: column;
+	align-items: center;
+	padding: 5px 10px;
+}
+
+.wrap-main .sidebar.item {
+	flex-direction: row;
+	column-gap: 10px;
+	margin-bottom: 10px;
+}
+
+.wrap-main .sidebar.item a {
+	margin-top: 5px;
+}
+
+/* 가격 + 구매버튼 */
+.wrap-main .cart-bottom.flex {
+	flex-direction: row;
+	border-top: 1px solid lightgray;
+	padding-top: 10px;
+	line-height: 2em;
+	align-items: center;
+	justify-content: space-between
+}
+
+.wrap-main .cart-check.flex {
+	align-items: center;
+	justify-content: center;
+}
+
+.wrap-main .cart-button.flex {
+	column-gap: 15px;
+}

@@ -1,0 +1,61 @@
+@charset "UTF-8";
+
+.wrap-body .wrap-make {
+	/* 중앙 배치 */
+	width: 960px;
+	margin: 0 auto;
+	/* 가로 정렬 */
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.wrap-make .make-left, .make-img {
+	width: 470px;
+	height: 500px;
+	/* 상하좌우 정중앙 정렬하기 */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.wrap-body .make-plan li {
+	display: inline-block;
+}
+
+.make-plan button {
+	width: 130px;
+	height: 30px;
+	font-family: "Binggrae";
+	font-size: var(--font4);
+	background: black;
+	color: white;
+	border: 0;
+	border-radius: 8px;
+	text-align: center;
+}
+
+.make-plan button:hover {
+	background: var(--color_light_gray);
+	color: black;
+	cursor: pointer;
+}
+
+.wrap-body .make-img img {
+	margin-top: 60px;
+	width: 400px;
+	height: 250px;
+	object-fit: cover;
+	border-radius: 8px;
+}
+
+.wrap-body .make-info {
+	/* 가로 정렬 */
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: 40px;
+}
+
+.wrap-body .make-info p {
+	margin: 0 15px;
+}

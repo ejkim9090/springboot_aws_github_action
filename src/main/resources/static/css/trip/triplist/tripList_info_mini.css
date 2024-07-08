@@ -1,0 +1,62 @@
+@charset "UTF-8";
+.main-wrapper .trip-list{
+	
+    background-color: #fafafa;
+    box-shadow: 0 2px 8px 0 rgba(31, 38, 135, .08) !important;
+    border-radius: 10px;
+    border-color: solid 1px var(--color_gray);
+    height: 180px;
+	margin : 30px 0px;
+	display: flex; 
+	align-items: center;
+}
+.main-wrapper .trip-list .ntrip{
+	display: flex;
+}
+.main-wrapper .trip-list .ntrip .trip-info{
+	margin:10px;
+	display: flex;
+	flex-direction:column;
+	justify-content: center;
+}
+.main-wrapper .trip-list .location-img{
+	object-fit: cover;
+	border-radius: 10px;
+	height:180px;
+	width:180px;
+}
+.main-wrapper .trip-list .info{
+	width:40px;
+	height: 50px;
+	border: none;
+	background-color: #fafafa;
+	padding:0px;
+	position: relative;
+}
+.main-wrapper .trip-list .trip-info > * {
+	margin:10px 0;
+}
+
+/* 미니 모달 일정보기, 공유, 삭제 */
+.main-wrapper .trip-list .mini-modal{
+    box-shadow: 0 2px 8px 0 rgba(31, 38, 135, .08) !important;
+    background-color: #fafafa;
+    flex-direction: column;
+	width:90px;
+	padding : 5px 10px;
+	position: absolute;
+	top: 0px;
+	right : 10px;
+	border-radius: 8px;
+}
+.main-wrapper .trip-list .mini-modal>div {
+	display: flex;
+	flex-direction: column;
+}
+.main-wrapper .trip-list .mini-modal>div > div{
+	padding : 5px 0px;
+	border: none;
+	height: 20px;
+	width:100%;
+	cursor: pointer;
+}

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<link th:href="@{/css/diary/diary_aside.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<div class="wrap-store-aside" th:fragment="store-aside">
+		<div class="aside-inner">
+			<ul class="store-aside">
+				<li class="element aside-store"><a th:href="@{/store}" class="store-li">스토어</a></li>
+				<li class="element aside-cart" sec:authorize="isAuthenticated()"><a th:href="@{/store/cart}" class="cart-li"><img th:src="@{/images/store/cart.png}" width="20px" height="20px" style="margin-right: 10px;">장바구니</a></li>
+				<li class="element aside-buy" sec:authorize="isAuthenticated()"><a th:href="@{/store/buy}" class="buy-li"><img th:src="@{/images/store/buy.png}" width="20px" height="20px" style="margin-right: 10px;">구매내역</a></li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

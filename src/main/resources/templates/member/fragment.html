@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<!-- 입력창만 -->
+<div class="inputlbl" th:fragment="inputlbl(label, name, type, size, placeholder)">
+	<div class="flex inputlbl1"><label th:style="'font-size: var(--font'+${size}+')'" th:for="${name}" th:id="${name}+'-lbl'" th:text="${label}">label</label></div>
+	<div class="flex inputlbl2" style="margin-top: 10px;"><input style="line-height: 1.5em;" th:type="${type}" th:name="${name}" th:id="${name}" th:placeholder="${placeholder}"></div>
+</div>
+<!-- 입력창+버튼 -->
+<div th:class="'inputbtn '+${class}" th:fragment="inputbtn(class, label, name, type, placeholder, btn, btnclass, size)">
+	<div><label th:style="'font-size: var(--font'+${size}+')'" th:for="${name}" th:id="${name}+'-lbl'" th:text="${label}"></label></div>
+	<div class="flex inputbtn" style="margin-top: 10px;">
+		<div class="inputbtn1">
+			<input style="line-height: 1.5em;" th:type="${type}" th:name="${name}" th:id="${name}" th:placeholder="${placeholder}">
+		</div>
+		<div class="inputbtn2">
+			<button type="button" th:class="'btn '+${btnclass}" th:text="${btn}"></button>
+		</div>
+	</div>
+</div>
+<!-- 입력창+체크 -->
+<div th:class="'inputchk '+${class}" th:fragment="inputchk(class, label, name, type, placeholder, size)">
+	<div><label th:style="'font-size: var(--font'+${size}+')'" th:for="${name}" th:id="${name}+'-lbl'" th:text="${label}"></label></div>
+	<div class="flex inputchk" style="margin-top: 10px;">
+		<div class="inputchk1">
+			<input style="line-height: 1.5em;" th:type="${type}" th:name="${name}" th:id="${name}" th:placeholder="${placeholder}">
+		</div>
+		<div class="inputchk2">
+			<img th:src=@{/images/member/yes.png} alt="중복없음" style="width: 1.5em; height: 1.5em;" th:id="${name}+'-yes'" class="hide">
+			<img th:src=@{/images/member/no.png} alt="사용불가" style="width: 1.5em; height: 1.5em;" th:id="${name}+'-no'">
+		</div>
+	</div>
+</div>
+<!-- 체크박스+동의 -->
+<div class="flex agree" th:fragment="agree(range, text)" style="align-items: center;">
+	<div><input type="checkbox" name="agree" th:class="'agree '+${range}"></div>
+	<div th:text="${text}"></div>
+</div>
+</body>
+</html>

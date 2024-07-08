@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<div class="memlist flex"  th:fragment="memlist" >  
+	<!-- 공유중인 유저 목록 ajax로 받아온 값-->
+	<div class="memNick flex scrollbar"  th:each="entity : ${shareList}">
+		<p>[[${entity.memNick}]]</p>
+		<button th:if="${entity.planMemRole == 0}" type="button" class="btn remove">삭제</button>
+		<button th:if="${entity.planMemRole == null}" type="button" class="btn add">추가</button>
+	</div>
+</div>
+</html>

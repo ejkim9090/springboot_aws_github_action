@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mclass.store.tripant.trip.model.repository.TripRepository">
+	
+<!-- 여행 전체일정 불러오기 -->
+	<resultMap type="DayEntity" id="dayEntityMap">
+		<id column="TRAVEL_DATE" property="travelDate"/>
+		<result column="SCHEDULE_START" property="scheduleStart"/>
+		<result column="SCHEDULE_END" property="scheduleEnd"/>
+		<collection ofType="DayDetailInfoEntity" property="dayDetailInfoEntity">
+			<result column="PLACE_TYPE" property="placeType"/>
+			<result column="CONTENTID" property="contentid"/>
+			<result column="TRAVEL_ORDER" property="travelOrder"/>
+			<result column="STAY_TIME" property="stayTime"/>
+			<result column="MEMO" property="memo"/>
+			<result column="TITLE" property="title"/>
+			<result column="ADDRESS" property="address"/>
+			<result column="FIRSTIMAGE" property="firstimage"/>
+			<result column="LNG" property="lng"/>
+			<result column="LAT" property="lat"/>
+		</collection>
+	</resultMap>
+	<select id="detailList" parameterType="int" resultMap="dayEntityMap">
+		SELECT TRAVEL_DATE , SCHEDULE_START ,SCHEDULE_END ,CONTENTID ,PLACE_TYPE , STAY_TIME , TRAVEL_ORDER ,MEMO ,TITLE ,ADDRESS ,FIRSTIMAGE ,LNG ,LAT  
+		FROM V_DETAILINFO WHERE PLAN_ID = #{planId} ORDER BY TRAVEL_DATE ASC ,TRAVEL_ORDER ASC
+	</select>
+	
+<!-- 여행 기본 정보 불러오기  -->	
+	<select id="planInfo" parameterType="int" resultType="map">
+		SELECT TO_CHAR(PLAN_AREA_CODE) CODE,PLAN_TITLE TITLE,PLAN_AREA_CODE AREACODE,TO_CHAR(PLAN_START_DAY,'YYYY.MM.DD') STARTDAY,TO_CHAR(PLAN_END_DAY,'YYYY.MM.DD') ENDDAY, AREA_SHORT_NAME AREANAME, AREA_X LNG, AREA_Y LAT  
+		FROM PLAN JOIN AREA ON AREA_CODE = PLAN_AREA_CODE WHERE PLAN_ID = #{planId}
+	</select>
+	
+	
+<!-- <update id=""></update> -->
+	
+</mapper>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="wrap-spotList flex" th:fragment="wrapspotlist">
+	<th:block th:if="${not #strings.isEmpty(spotList)}">
+		<th:block th:each="spot, spotStat : ${spotList}">
+			<div class="spot-box flex">
+				<img class="spot-img" th:src="@{${spot.firstimage}}" alt="장소이미지" style="width: 70px; height: 70px;">
+				<div class="spot-txt">
+					<span class="spot-name" th:text="${spot.title}"  th:value="${spot.title}" style ="padding-bottom:5px; font-weight: bold;"></span> 
+					<span class="spot-address" th:text="${spot.add1}" th:value="${spot.add1}"></span>
+					<span class="spot-x" th:value="${spot.mapx}" style ="display:none"></span> 
+					<span class="spot-y" th:value="${spot.mapy}" style ="display:none"></span> 
+				</div>
+				<input type="checkbox" th:data-spotid="${spot.contentid}"
+					th:id="|spot-check${spot.contentid}|"
+					class="spotcheck"
+					onclick="spotCkBtnClickHandler(this);"> 
+				<label th:for="|spot-check${spot.contentid}|"></label>
+			</div>
+		</th:block>
+		<div class="resultSpotCheck">
+			<button type="button" onclick="spotMoreBtnClickHandler(this);" class="spot_more_btn">더보기</button>
+		</div>
+	</th:block>
+</div>

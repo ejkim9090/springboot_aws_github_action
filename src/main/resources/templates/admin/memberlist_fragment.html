@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+	<th:block th:each="memList:${memList}" th:fragment="list">
+		<ul class="col list">
+			<li th:text="${memList.memNick}"></li>
+			<li th:text="${memList.memEmail}"></li>
+			<li th:text="${memList.memJoinDate}"></li>
+			<li th:text="${memList.memQuitDate}"></li>
+			<li th:text="${memList.memRole}"></li>
+			<li><button type="button" class="btn"><h5>편집</h5></button></li>
+		</ul>
+	</th:block>
+</html>

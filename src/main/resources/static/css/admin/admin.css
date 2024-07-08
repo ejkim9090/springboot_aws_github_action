@@ -1,0 +1,96 @@
+@charset "UTF-8";
+.wrap-main *{
+	font-family: 'Binggrae';
+}
+.wrap-main{
+	display:flex;
+	min-width: 1024px;
+}
+
+body{
+	margin:0;
+}
+
+a{
+	color:white;
+}
+
+.btn{
+	cursor: pointer;
+}
+
+/* 사이드바 */
+.wrap-main .wrap-sidebar{
+	padding:15px;
+}
+
+.wrap-sidebar .ad-menu{
+	font-size:25px;
+	margin:30px 0 50px 0;
+}
+
+.wrap-sidebar .ad-member{
+	margin-bottom:20px; 
+	font-size: var(--font3);
+}
+
+.wrap-sidebar .ad-menumember{
+	margin-bottom:10px; 
+	font-size: var(--font5);
+}
+
+.wrap-sidebar .ad-board{
+	margin-bottom:20px; 
+	margin-top:30px;
+	font-size:var(--font3);
+}
+
+.wrap-sidebar .ad-menuboard{
+	margin-bottom:10px; 
+	font-size: var(--font5);
+}
+
+.wrap-sidebar .ad-store{
+	margin-bottom:20px; 
+	margin-top:30px;
+	font-size: var(--font3);
+}
+
+.wrap-sidebar .ad-menustorea{
+	font-size: var(--font5);
+}
+
+.wrap-sidebar .ad-menustorea.a{
+	margin-bottom:10px;
+}
+
+/* main 헤더 */
+.wrap-main .wrap-body .ad-header{
+ background-color:rgb(128, 128, 128);
+ height	:70px;
+ color:white;
+}
+
+.wrap-body .ad-header .ad-text{
+	padding:30px;
+}
+
+.wrap-main .wrap-sidebar{
+	width: 240px;
+    height: 1025px;
+    background: black;
+    color:white;
+}
+
+/* 로그아웃 버튼 */
+.wrap-body .ad-header{
+	display:flex;
+}
+.ad-header .btn.logout{
+	border-radius:8px;
+	border:solid black 1px;
+	height:35px;
+	width:80px;
+	background-color:white;
+	margin:15px 15px 0 auto;
+}

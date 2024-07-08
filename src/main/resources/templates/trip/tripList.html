@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/trip/triplist/tripList_layout.css}" type="text/css">
+<link rel="stylesheet" th:href="@{/css/trip/triplist/tripList_info_mini.css}" type="text/css">
+<link rel="stylesheet" th:href="@{/css/trip/triplist/tripList_modal.css}" type="text/css">
+<!-- modal CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css">
+<head th:replace="~{common/header :: head('나의 여행 목록')}"></head>
+<body>
+	<header class="header" th:insert="~{common/header :: wrap-header}"></header>
+	<div class="main-wrapper">
+		<h1 class="title"> 나의 여행 </h1>
+		<!-- 일정 있을 경우 -->
+		<div class="full">
+			<div th:each="plan : ${planlist}" class="trip-list wfull" th:data-plan-id="${plan.planId}" th:data-title="${plan.planTitle}" th:data-role="${plan.planMemRole}">
+			    
+			    <!-- 일정 정보 -->
+				<div class="ntrip wfull"  ><!-- 해당 정보에 대한 trip 페이지로 이동 -->
+					<img th:src="@{|/images/area/${plan.areaFileName}|}" alt="img"  class="location-img"/>
+					<div class="trip-info">
+						<h4 th:text="${plan.areaShortName}" class="trip-location"></h4>
+						<h3 th:text="${plan.planTitle}" class="trip-title"></h3>
+						<h5 class="trip-period"><span th:text="${#dates.format(plan.planStartDay,'yyyy.MM.dd')}"></span> ~ <span th:text="${#dates.format(plan.planEndDay,'yyyy.MM.dd')}"></span></h5>
+					</div>
+				</div>
+				
+				<!-- 케밥 버튼 -->
+				<button class="info btn" > 
+					<img class="wfull img" src="/images/icons/kebabIcon.png"/>
+					<div class="mini-modal hide" ><!-- flex 설정 -->
+						<div class="show-detail">일정보기</div>
+						<div class="share-plan modal">일행추가</div>
+						<div class="delete-plan">삭제</div>
+					</div>
+				</button>
+				<!-- 공유 modal fragment-->
+				<div th:replace="~{trip/tl_modal_fragment :: share}"></div> 
+				
+			</div> <!-- each -->
+			<div style="height: 100px;" ></div>
+		</div> <!-- full -->
+		
+		<!-- 여행일정없음 -->
+		<h1 th:if="${#lists.isEmpty(planlist)}" class="nothing" >작성된 여행 일정이 없습니다</h1>
+	</div>
+<script th:src="@{/js/trip/triplist/movePage.js}"></script>
+<script th:src="@{/js/trip/triplist/loadedHandler.js}"></script>
+<script th:src="@{/js/trip/triplist/addAndRemove.js}"></script>
+<script th:src="@{/js/trip/triplist/modal.js}"></script>
+<script th:src="@{/js/trip/triplist/findNick.js}"></script>
+<script th:src="@{/js/trip/triplist/delete.js}"></script>
+</body>
+</html>

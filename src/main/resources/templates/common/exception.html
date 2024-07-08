@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/header :: head('오류')}"></head>
+<script type="text/javascript" th:src="@{/js/common/banDevTool.js}"></script>
+<body>
+<script type="text/javascript">
+var code = new URL(window.location.href).searchParams.get("code");
+var msg;
+var page;
+// SNS 회원가입 시
+if(code == "4011"){
+	msg = "추가 정보 입력을 위해 회원가입 페이지로 이동합니다.";
+	page = contextPath + "join/sns";
+}
+// 회원 정지됐을 시
+if(code == "4012"){
+	msg = "정지된 회원입니다. 관리자에게 문의해주시기 바랍니다.";
+	page = contextPath;
+}
+// 접근 불가 사용자 접근 시
+let memRole = "[[${memRole}]]"; 
+if(memRole == "ROLE_MEM" || 
+		memRole == "ROLE_VIP" || 
+		memRole == "ROLE_ADMIN"){
+	msg = "접근 불가 페이지입니다.";
+	page = contextPath;
+}
+Swal.fire({
+	text: msg, 
+	icon: "warning", 
+	confirmButtonColor: "#000000", 
+	confirmButtonText: "확인"
+}).then((swal) => {
+	if(swal.isConfirmed){
+		location.href = page;
+	}
+});
+
+// 휴면 회원 접속 시
+if(code == "4021" && memRole == "ROLE_SLEEP"){
+	let memEmail = "[[${memEmail}]]";
+	Swal.fire({
+		title: "휴면 회원", 
+		html: "휴면 해제를 위해 이메일 인증이 필요합니다.<br>회원님의 이메일 : " + memEmail, 
+		confirmButtonColor: "#000000", 
+		confirmButtonText: "인증번호 발송", 
+		showCancelButton: true, 
+		cancelButtonText: "돌아가기", 
+		cancelButtonColor: "#000000"
+	}).then((swal) => {
+		if(swal.isConfirmed){
+			$.ajax({
+				beforeSend : csrfHandler,
+				error : ajaxErrorHandler,
+				url: contextPath + "code/send/awake", 
+				type: "post", 
+				async: false, 
+				data: {
+					memEmail: memEmail
+				}, 
+				success: inputCode()
+			});
+		}else{
+			location.href = contextPath;
+		}
+	});
+}
+// 인증번호 입력 요구
+async function inputCode(){
+	const {value: code} = await Swal.fire({
+		title: "휴면 회원", 
+		text: "인증번호를 입력해주세요.",
+		input: "text", 
+		confirmButtonColor: "#000000", 
+		confirmButtonText: "확인", 
+		inputValidator: (value) => {
+			if (!value) {
+				return "인증번호를 입력해주세요!";
+		    }
+		}, 
+		preConfirm: () => {
+			return [document.getElementById("swal2-input").value];
+		}
+	});
+	if(code[0].trim().length > 0){
+		$.ajax({
+			beforeSend : csrfHandler,
+			error : ajaxErrorHandler,
+			url: contextPath + "code/check/awake", 
+			type: "post", 
+			data: {
+				inputCode: `${code}`
+			}, 
+			success: function(data){
+				if(data > 0){
+					Swal.fire({
+						title: "휴면 해제", 
+						html: "휴면 해제가 완료되었습니다.<br>다시 로그인 해주시기 바랍니다.", 
+						confirmButtonColor: "#000000", 
+						confirmButtonText: "확인"
+					}).then((swal) => {
+						if(swal.isConfirmed){
+							location.href = contextPath;
+						}
+					});
+				}else{
+					Swal.fire({
+						title: "휴면 해제", 
+						text: "인증번호가 올바르지 않습니다.", 
+						confirmButtonColor: "#000000", 
+						confirmButtonText: "확인"
+					}).then((swal) => {
+						return inputCode();
+					});
+				}
+			}
+		});
+	}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+@charset "UTF-8";
+footer .inner li {
+    display: inline-block;
+    margin: 0 80px 0 0;
+    vertical-align: top;
+}
+
+footer .inner .tf {
+    font-family: "Binggrae";
+    font-size: var(--font4);
+    font-weight: bolder;
+}
+
+footer .inner .to {
+    font-family: "Binggrae";
+    font-size: var(--font4);
+}
+
+footer .inner  p {
+    color: black;
+    margin: 10px 0 10px 0;
+}
+
+footer .inner{
+		margin: 0 auto;
+}
+
+@media all and (min-width: 971px){
+	footer .inner {
+		width: 960px;
+	}
+}
+
+@media all and (min-width: 691px) and (max-width: 970px){
+	footer .inner {
+		width: 660px;
+	}
+}
+
+@media all and (max-width: 690px){
+	footer{
+		height: auto;
+	}
+	footer .inner {
+		width: min-content;
+		margin: 0 auto;
+	}
+}

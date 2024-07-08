@@ -1,0 +1,167 @@
+@charset "UTF-8";
+
+.tab-content #tab02 {
+	display: flex;
+	width: auto;
+	flex-direction:row;
+	gap : 0 20px;
+	margin: 0 10px;
+}
+
+.tab-content #tab02 .spot {
+	display: flex;
+	min-width: 200px;
+	gap: 10px 0;
+	width: 100%;
+	height: 100%;
+}
+
+
+.tab-content #tab02 .spot.first, 
+.tab-content #tab02 .spot.second{
+	min-width: 200px;
+}
+
+.tab-content #tab02 .plan-title {
+	font-size: var(--font2);
+	font-weight: bold;
+}
+
+.tab-content #tab02 .plan-priod {
+	font-size: var(--font4);
+	margin: 10px 0;
+	color: var(--color_gray);
+}
+
+/* 장소 찾기 */
+.tab-content #frm-find-spot {
+	margin: 5px 0;
+	position: relative;
+}
+
+.tab-content #frm-find-spot input {
+	height: 30px;
+	width: 100%;
+	border-radius: 8px;
+	border: 0;
+	background-color: white;
+	font-family: "Binggrae";
+	font-size: var(--font4);
+	box-shadow: 0 2px 8px 0 var(--color_gray) !important;
+}
+
+.tab-content #frm-find-spot button {
+	border: 0;
+	background-color: white;
+	position: absolute;
+	top: 13%;
+	right: 0%;
+}
+
+/* 장소 탭 */
+.tab-content  #tab02 .spot-tab-nav {
+	display: grid;
+	column-gap: 5px;
+	grid-template-columns: repeat(auto-fill, minmax(20%, auto));
+	align-items: center;
+}
+
+.tab-content  #tab02 .spot-tab-nav li {
+	padding: 6px;
+	border: 1px solid var(--color_gray);
+	border-radius: 8px;
+	margin-right: 5px;
+	font-size: var(--font5);
+	text-align: center;
+}
+/* 박스 */
+.tab-content #tab02 .spot-tab-content {
+	margin-top: 10px;
+	max-height: 760px;
+	overflow-y: auto;
+}
+
+.spot-tab-content div .spot-box {
+	width: 100%;
+	height: 80px;
+	border-radius: 8px;
+	align-items: center;
+	flex-direction: row;
+	justify-content: flex-start;
+	margin: 5px 0;
+}
+
+.spot-tab-content div .spot-img {
+	object-fit: cover;
+	margin-left: 10px;
+	border-radius: 8px;
+	flex-shrink: 0;
+}
+
+.spot-tab-content div .spot-txt {
+	width: 200px;
+	margin: 0 10px;
+	font-size: var(--font5);
+	display: flex;
+	line-height: 120%;
+}
+
+/* 체크박스 커스텀 */
+.spot-tab-content input[type="checkbox"]+label {
+	display: block;
+	margin-left: auto;
+	margin-right: 10px;
+	width: 35px;
+	height: 55px;
+	background: var(--img_spot_ck_bf) no-repeat 0 0px/contain;
+}
+
+.spot-tab-content input[type='checkbox']:checked+label {
+	background: var(--img_spot_ck_af) no-repeat 0 1px/contain;
+}
+
+.spot-tab-content input[type="checkbox"] {
+	display: none;
+}
+
+/*더보기 버튼*/
+.tab-content  #tab02 .spot-tab-content .spot_more_btn {
+	margin-top: 20px;
+	width: 100%;
+	height: 40px;
+	font-family: "Binggrae";
+	font-size: var(--font4);
+	font-weight: bold;
+	background: var(--color_light_gray);
+	color: black;
+	border: 0;
+	border-radius: 8px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.tab-content  #tab02 .spot-tab-content .spot_more_btn:hover {
+	background: black;
+	color: white;
+}
+
+/*검색 후 더보기 버튼*/
+.tab-content  #tab02 .spot-tab-content .spot_find_more_btn {
+	margin-top: 20px;
+	width: 100%;
+	height: 40px;
+	font-family: "Binggrae";
+	font-size: var(--font4);
+	font-weight: bold;
+	background: var(--color_light_gray);
+	color: black;
+	border: 0;
+	border-radius: 8px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.tab-content  #tab02 .spot-tab-content .spot_find_more_btn:hover {
+	background: black;
+	color: white;
+}

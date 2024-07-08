@@ -1,0 +1,81 @@
+@charset "UTF-8";
+
+/* edit part */
+.main-wrapper .edit-tourlist .column .container .spot{
+	background-color: #fff;
+	border-radius: 8px;
+	width:100%;
+	/* 시간 설정 input 태그 위치 지정 */
+	/* position: relative; */
+}
+/* 블록처리를 위한 클래스 */
+.main-wrapper .spot-block{
+	margin-bottom: 30px;
+	z-index:99;
+}
+/* tourlist part - grid */
+.main-wrapper .tourlist .spot{
+	grid-template-columns :25px 150px 75px;
+	grid-template-rows :repeat(5,21px);  
+	gap:5px;
+	}
+.main-wrapper .spot>:not(:first-child){
+	align-self: center;
+}	
+/* grid-items 규격설정 */	
+.main-wrapper .tourlist .spot-number{grid-column:1; grid-row: 1 ; }
+.main-wrapper .tourlist .spot-staytime{grid-column:2; grid-row: 1 ;}
+.main-wrapper .tourlist .spot-type{grid-column:2; grid-row: 2 ;}
+.main-wrapper .tourlist .spot-title{grid-column:2; grid-row: 3 ;}
+.main-wrapper .tourlist .spot-memo{grid-column:2; grid-row: 4 ;}
+.main-wrapper .tourlist .spot-img{grid-column:3; grid-row: 2 / 5; border-radius: 8px;}
+.main-wrapper .tourlist .spot-caricon{grid-column:1; grid-row: 5 ;}
+.main-wrapper .tourlist .spot-move{grid-column:2; grid-row: 5 ;}
+
+/* background 이미지 규격 설정 */
+.main-wrapper .spot-number.backimg{
+	background-image: url('/images/location/circle1_red.png');
+	background-size : contain ;
+	background-repeat : no-repeat;
+	color:white;
+	position: relative;
+}	
+.main-wrapper .spot-number >p{
+	position: absolute;
+	left: 40%;
+	transform:translate(-50%,10%);
+}	
+.main-wrapper .spot-staytime{
+	font-size:var(--font5);
+	color: var(--color_gray);
+	z-index:3;
+}
+.main-wrapper .spot-title{
+      overflow:hidden;
+      text-overflow:ellipsis;
+      height: 100%;
+      white-space: nowrap;
+}
+
+.main-wrapper .spot .spot-memo .img-memo+.memo{
+	position: absolute;
+	opacity:0; /* 불투명도 설정 0 : 투명 */
+ 	transition: all ease 0.5s;
+ 	padding : 10px;
+ 	width: 200px;
+ 	height: auto;
+ 	border-radius: 8px;
+ 	background-color:  #fafafa;
+ 	border:2px solid var(--color_gray);
+	z-index:4;
+}
+/* 드래그 스타일 설정 */
+.main-wrapper .draggable{
+   	display: inline-block;
+	cursor: move;
+}
+.main-wrapper .draggable.dragging  {
+    opacity: 0.5;
+    box-sizing: border-box;
+    border: 2px dashed var(--color_day1_red);
+}

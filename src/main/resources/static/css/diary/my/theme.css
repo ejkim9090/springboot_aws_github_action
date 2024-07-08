@@ -1,0 +1,33 @@
+.theme1{
+	background-color:  rgb(229 75 75 / 20%);
+	/*rgb(201 67 204 / 20%);  */
+}
+.theme2{
+	background-color:  rgb(201 67 204 / 20%); 
+}
+.theme3{
+	background-color:  hsl(340deg 100% 83% / 20%);
+}
+.theme4{
+	background-color: rgb(229 121 75 / 20%);
+}
+.theme5{
+	background-color:  rgb(75 201 229 / 20%);
+}
+.theme6{
+	background-color:  rgb(229 195 75 / 20%);
+}
+.theme7{
+	background-color:  rgb(205 242 99 / 20%);
+}
+.theme8{
+	background-color: rgb(46 182 125 / 20%);
+}
+.theme9{
+	background-color:  rgb(75 118 229 / 20%);
+}
+.theme10{
+	background-color:  rgb(19 53 143 / 20%);
+	/*box-shadow: 0 0 10px rgb(19 53 143 / 20%);
+	하단 조회수 하트 있는 곳은 box-shadow로 색깔 변경 시키기  */
+}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<li id="list" th:fragment="goodsList" >
+	<ul th:each="item : ${goodsMap.goodsList}"  class="col list" th:data-item-code="${item.itemCode}">
+		<li th:text="${item.itemCode}" ></li>
+		<li th:text="${item.itemName}"></li>
+		<li th:text="${item.itemPriceChar}"></li>
+		<li th:text="${item.itemDur}" th:if="${item.itemDur} != null"></li>
+		<li th:if="${item.itemDur} == null"></li>
+		<li th:text="${item.itemSale}" th:if="${item.itemSale} != null"></li>
+		<li th:if="${item.itemSale} == null"></li>
+		<li th:text="${item.itemColor}" th:if="${item.itemColor} != null"></li>
+		<li th:if="${item.itemColor} == null"></li>
+		<li th:text="${item.itemSrc}" th:if="${item.itemSrc} != null"></li>
+		<li th:if="${item.itemSrc} == null"></li>
+		<li><button type="button" class="btn update"><h5>수정</h5></button> <button type="button" class="btn delete"><h5>삭제</h5></button> </li>
+	</ul>
+</li>
+</html>

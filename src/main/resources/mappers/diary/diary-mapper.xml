@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="mclass.store.tripant.diary.model.repository.DiaryRepository">
+
+	<resultMap type="DiaryBoardEntity" id="DiaryBoardEntityMap">
+		<result property="diaryContent" column="DIARY_CONTENT"
+			jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap>
+
+	<!--전체글 리스트 목록 뿌리기 -->
+	<!--최신순 정렬 (diary_date_real 별칭사용) -->
+	<!-- 여행기는 공개글이기 때문에 diaryOpen == '0 -->
+	
+	<select id="selectDiaryList" resultType="DiaryBoardEntity"	parameterType="map">
+		SELECT
+			<if test="memEmail != null and !memEmail.equals('') ">
+			(SELECT COUNT(t1.DIARY_ID) FROM diary_likes t1 WHERE t1.DIARY_ID = t2.DIARY_ID and t1.mem_email =#{memEmail}) is_my_likes,
+			</if>
+			(SELECT diary_Image FROM diary_save t1 WHERE	t1.DIARY_ID = t2.DIARY_ID) diary_Image,
+			(SELECT diary_Preview FROM diary_save t1 WHERE	t1.DIARY_ID = t2.DIARY_ID) diary_Preview,		
+			t2.*
+		FROM
+			( select t1.*, rownum rn 
+			  from
+			  (SELECT DIARY_ID, MEM_NICK, DIARY_TITLE,	to_char(DIARY_DATE,'yyyy-MM-dd') DIARY_DATE, 
+			  			DIARY_VIEWS, DIARY_THEME, PLAN_AREA_CODE, DIARY_OPEN , DIARY_PLAN_ID ,
+			  			DIARY_MEM_EMAIL,  diary_date diary_date_real
+				FROM VIEW_DIARY_MEMBER_PLAN
+				WHERE	DIARY_OPEN = 0
+					<if test="areaname != null and !areaname.equals('') ">
+					AND PLAN_AREA_CODE = (SELECT AREA_CODE FROM AREA WHERE	AREA_SHORT_NAME = #{areaname})
+					</if>
+				ORDER BY diary_date_real DESC NULLS LAST) t1
+			)t2 
+		where rn between 1 and	#{maxNum}
+	</select>
+	<!--최신순 정렬 (diary_date_real 별칭사용) -->
+	<select id="selectLatest" resultType="DiaryBoardEntity" parameterType="map">
+		SELECT
+			<if test="memEmail != null and !memEmail.equals('') ">
+				(SELECT COUNT(t1.DIARY_ID) FROM diary_likes t1 	WHERE t1.DIARY_ID = t2.DIARY_ID and t1.mem_email =#{memEmail}) is_my_likes,
+			</if>
+		
+			(SELECT diary_Image FROM diary_save t1 WHERE	t1.DIARY_ID = t2.DIARY_ID) diary_Image,
+			(SELECT diary_Preview FROM diary_save t1 WHERE	t1.DIARY_ID = t2.DIARY_ID) diary_Preview,
+			t2.*
+		FROM
+			( SELECT t1.*, rownum rn 
+				FROM
+					(SELECT DIARY_ID, MEM_NICK,DIARY_TITLE,
+						to_char(DIARY_DATE,'yyyy-MM-dd') DIARY_DATE,
+						DIARY_VIEWS,DIARY_THEME, PLAN_AREA_CODE,
+						DIARY_OPEN , DIARY_PLAN_ID , DIARY_MEM_EMAIL,
+						diary_date diary_date_real
+					FROM VIEW_DIARY_MEMBER_PLAN
+					WHERE DIARY_OPEN = 0
+		<if test="areaname != null and !areaname.equals('') ">
+			AND PLAN_AREA_CODE = (SELECT AREA_CODE FROM AREA WHERE AREA_SHORT_NAME = #{areaname})
+		</if>
+		ORDER BY diary_date_real DESC NULLS LAST) t1)t2 
+		WHERE rn between 1 and #{maxNum}
+	</select>
+	<!-- 좋아요 정렬(likes ) -->
+	<select id="selectLikesPopular" resultType="DiaryBoardEntity" parameterType="map">
+			SELECT
+			<if test="memEmail != null and !memEmail.equals('') ">
+				(SELECT COUNT(t1.DIARY_ID) FROM diary_likes t1 	WHERE t1.DIARY_ID = t2.DIARY_ID and t1.mem_email =#{memEmail}) is_my_likes,
+			</if>
+	
+				(SELECT diary_Image FROM diary_save t1 WHERE	t1.DIARY_ID = t2.DIARY_ID) diary_Image,
+				(SELECT diary_Preview FROM diary_save t1 WHERE	t1.DIARY_ID = t2.DIARY_ID) diary_Preview,
+				t2.*
+			FROM
+				( SELECT t1.*, rownum rn 
+					FROM
+					(SELECT DIARY_ID, MEM_NICK,DIARY_TITLE,
+						to_char(DIARY_DATE,'yyyy-MM-dd') DIARY_DATE,NVL(likes,0)likes,
+						DIARY_VIEWS,DIARY_THEME, PLAN_AREA_CODE,
+						DIARY_OPEN , DIARY_PLAN_ID , DIARY_MEM_EMAIL,
+						diary_date diary_date_real
+					FROM VIEW_DIARY_MEMBER_PLAN
+					LEFT OUTER JOIN (select count (mem_email) likes,diary_id from diary_likes group by diary_id) USING (diary_id)
+					WHERE DIARY_OPEN = 0
+		<if test="areaname != null and !areaname.equals('') ">
+			AND PLAN_AREA_CODE = (SELECT AREA_CODE FROM AREA WHERE AREA_SHORT_NAME = #{areaname})
+		</if>
+			ORDER BY likes DESC NULLS LAST) t1)t2 
+			WHERE rn between 1 and #{maxNum}
+	
+	</select>
+	<!--조회수 정렬 (diary_views) -->
+	<select id="selectViewsPopular" resultType="DiaryBoardEntity" parameterType="map">
+				SELECT
+			<if test="memEmail != null and !memEmail.equals('') ">
+				(SELECT COUNT(t1.DIARY_ID) FROM diary_likes t1 	WHERE t1.DIARY_ID = t2.DIARY_ID and t1.mem_email =#{memEmail}) is_my_likes,
+			</if>
+		
+				(SELECT diary_Image FROM diary_save t1 WHERE	t1.DIARY_ID = t2.DIARY_ID) diary_Image,
+				(SELECT diary_Preview FROM diary_save t1 WHERE	t1.DIARY_ID = t2.DIARY_ID) diary_Preview,
+				t2.*
+			FROM
+				( SELECT t1.*, rownum rn FROM
+					(SELECT DIARY_ID, MEM_NICK,DIARY_TITLE,
+						to_char(DIARY_DATE,'yyyy-MM-dd') DIARY_DATE,
+						DIARY_VIEWS,DIARY_THEME, PLAN_AREA_CODE,
+						DIARY_OPEN , DIARY_PLAN_ID , DIARY_MEM_EMAIL,
+						diary_date diary_date_real
+					FROM VIEW_DIARY_MEMBER_PLAN
+					
+					WHERE DIARY_OPEN = 0
+		<if test="areaname != null and !areaname.equals('') ">
+			AND PLAN_AREA_CODE = (SELECT AREA_CODE FROM AREA WHERE AREA_SHORT_NAME = #{areaname})
+		</if>
+			ORDER BY DIARY_VIEWS DESC NULLS LAST) t1)t2 
+			WHERE rn between 1 and #{maxNum}
+			
+	</select>
+
+	<!-- 나의 글 리스트 목록 뿌리기 -->
+	<select id="selectMyDiaryList" resultType="DiaryBoardEntity"
+		parameterType="map">
+			SELECT
+			<if test="memEmail != null and !memEmail.equals('') ">
+			(SELECT COUNT(t1.DIARY_ID) FROM diary_likes t1 WHERE t1.DIARY_ID = t2.DIARY_ID and t1.mem_email =#{memEmail})as is_my_likes,
+			</if>		
+			(SELECT diary_Image FROM diary_save t1 WHERE	t1.DIARY_ID = t2.DIARY_ID) as diary_Image,
+			(SELECT diary_Preview FROM diary_save t1 WHERE	t1.DIARY_ID = t2.DIARY_ID) as diary_Preview,		
+			t2.*
+
+			FROM
+    			(SELECT t1.*, rownum rn 
+     			FROM
+         			(SELECT 
+         				DIARY_ID, MEM_NICK, DIARY_TITLE,
+                 		TO_CHAR(DIARY_DATE, 'yyyy-MM-dd') AS DIARY_DATE,
+                 		DIARY_VIEWS, DIARY_THEME, PLAN_AREA_CODE,
+                 		DIARY_OPEN, DIARY_PLAN_ID, DIARY_MEM_EMAIL,
+                 		DIARY_DATE AS diary_date_real
+         		    FROM VIEW_DIARY_MEMBER_PLAN
+          		WHERE DIARY_MEM_EMAIL = #{memEmail}
+          		ORDER BY diary_date_real DESC NULLS LAST) t1) t2
+				WHERE rn BETWEEN #{maxNum}-3 and #{maxNum}
+		
+	</select>
+
+	<!-- 글 작성 등록 시키기 -->
+	<insert id="insertDiary" parameterType="DiaryBoardEntity">
+		INSERT 
+			INTO DIARY ( DIARY_ID, DIARY_MEM_EMAIL,DIARY_PLAN_ID,
+						DIARY_TITLE, DIARY_CONTENT, DIARY_DATE, DIARY_OPEN,
+						DIARY_VIEWS, DIARY_THEME)
+			VALUES
+					   (#{diaryId}, #{diaryMemEmail},#{diaryPlanId}, #{diaryTitle},
+						#{diaryContent},default, #{diaryOpen}, #{diaryViews},#{diaryTheme})
+		<selectKey keyProperty="diaryId" resultType="int" order="BEFORE">
+			SELECT diary_seq.NEXTVAL diaryId FROM DUAL
+		</selectKey>
+
+	</insert>
+
+	<!-- 여행기 글 등록 시 이미지 url diary_save 테이블에 저장 시키기 -->
+	<insert id="insertDiaryImage" parameterType="DiaryBoardEntity">
+		INSERT 
+			INTO DIARY_SAVE(DIARY_ID,DIARY_MEM_EMAIL,DIARY_IMAGE,DIARY_PREVIEW)
+			VALUES (#{diaryId}, #{diaryMemEmail}, #{diaryImage}, #{diaryPreview})
+	</insert>
+
+	<!-- 특정 ID의 PlAN 조회 -->
+	<select id="selectPlanById" parameterType="string" resultType="WritePlanTitleEntity">
+		SELECT PLAN_ID AS planId, PLAN_TITLE AS planTitle
+			FROM view_plan_member
+			WHERE mem_email = #{MemEmail}
+	</select>
+
+	<!-- 특정 ID의 다이어리 조회  + 로그인한 계정이 눌렀는지 여부 -->
+	<select id="selectDiaryById" parameterType="map" resultMap="DiaryBoardEntityMap">
+		<!-- view_diary_member의 nick_name -->
+		SELECT t2.* 
+			<if test="memEmail != null and !memEmail.equals('') ">
+            ,(SELECT COUNT(t1.DIARY_ID) FROM diary_likes t1 
+            WHERE t1.DIARY_ID = t2.DIARY_ID and t1.mem_email =#{memEmail})
+             is_my_likes
+             </if>
+			FROM VIEW_DIARY_MEMBER t2
+			WHERE DIARY_ID = #{diaryId}
+	</select>
+	<!-- 한개의 여행기에 여러명의 이메일 계정들이 누른 하트 개수 + 로그인한 계정이 눌렀는지 여부
+		속도 저하되지만 분석함수(over)사용 경험.
+	 -->
+	<select id="selectDiaryLike" parameterType="map" resultType="LikeEntity">
+		select distinct 
+			DIARY_ID
+	        , count(*) over( PARTITION BY DIARY_ID ) like_Count
+			<if test="memEmail != null and !memEmail.equals('') ">
+	        ,(SELECT COUNT(t1.DIARY_ID) FROM diary_likes t1 
+	        	WHERE t1.DIARY_ID = t2.DIARY_ID and t1.mem_email =#{memEmail}) is_Like_Mem_Email
+			</if>
+	    FROM diary_likes t2
+	    WHERE DIARY_ID = #{diaryId}
+	</select>
+
+
+	<!-- 조회수 증가 -->
+	<update id="incrementDiaryViews" parameterType="int">
+		UPDATE DIARY
+		SET 
+			DIARY_VIEWS = COALESCE(DIARY_VIEWS, 0) + 1
+		WHERE DIARY_ID = #{diaryId}
+	</update>
+
+
+
+	<!-- 글 삭제 -->
+	<delete id="deleteDiaryById" parameterType="DiaryPostEntity">
+		DELETE
+		 FROM 	DIARY
+		 WHERE	DIARY_ID = #{diaryId} AND DIARY_MEM_EMAIL = #{memEmail}
+	</delete>
+
+	<!-- 글 수정 -->
+	<update id="updateDiary" parameterType="DiaryPostEntity">
+		UPDATE DIARY
+		SET
+			DIARY_TITLE = #{diaryTitle},
+			DIARY_CONTENT = to_clob(#{diaryContent}),
+			DIARY_DATE = #{diaryDate},
+			DIARY_OPEN = #{diaryOpen},
+			DIARY_THEME =#{diaryTheme}
+		WHERE DIARY_ID = #{diaryId}
+	</update>
+
+	<!-- 좋아요 누르기 -->
+	<insert id="insertDiaryLike" parameterType="map">
+		INSERT INTO
+		DIARY_LIKES (DIARY_ID, MEM_EMAIL)
+		VALUES (#{diaryId}, #{memEmail})
+	</insert>
+	<!--좋아요 해제하기 -->
+	<delete id="deleteDiaryLike" parameterType="map">
+		DELETE FROM
+		DIARY_LIKES
+		WHERE DIARY_ID = #{diaryId} AND MEM_EMAIL = #{memEmail}
+	</delete>
+
+	<!--글 신고하기 -->
+	<insert id="reportsOne" parameterType="ReportsEntity">
+		INSERT INTO
+		DIARY_REPORTS
+		(DIARY_ID, MEM_EMAIL)
+		VALUES (#{diaryId}, #{memEmail})
+	</insert>
+
+</mapper>

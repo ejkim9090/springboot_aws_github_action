@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+.wrap-main {
+	min-width: 480px;
+	margin: 120px auto;
+}
+
+.wrap-main * {
+	font-family: 'Binggrae';
+}
+
+.wrap-main .btn {
+	cursor: pointer;
+	border-radius: 8px;
+	border: 0;
+	background-color: black;
+	color: white;
+	padding: 5px 0;
+}
+
+.wrap-main .flex {
+	display: flex;
+}
+
+.wrap-main .flex.center {
+	justify-content: center;
+}
+
+.wrap-main .flex.input-email, .wrap-main .flex.input-password {
+	width: 100%;
+	border-radius: 8px;
+}
+
+.wrap-main .flex.login {
+	width: 340px;
+	margin: 0 auto;
+	flex-direction: column;
+	row-gap: 20px;
+	padding: 30px 20px;
+	background-color: var(--color_light_gray);
+	border-radius: 10px;
+}
+
+.wrap-main .login.title {
+	margin-bottom: 15px;
+	text-align: center;
+	font-size: var(--font1);
+}
+
+.wrap-main .inputlbl, .wrap-main .btn {
+	font-size: var(--font3);
+}
+
+.wrap-main .inputlbl input, .wrap-main .flex.login button {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.wrap-main .flex.findpwd a, .wrap-main .email-join a {
+	color: #4bc9e5;
+}
+
+.wrap-main .flex.join {
+	justify-content: space-around;
+}
+
+.wrap-main .flex.snslogin {
+	align-items: center;
+	justify-content: space-around;
+}
+
+.wrap-main .flex.snslogo {
+	column-gap: 10px;
+}

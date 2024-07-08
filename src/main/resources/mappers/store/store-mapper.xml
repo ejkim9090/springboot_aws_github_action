@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mclass.store.tripant.store.model.repository.StoreRepository">
+	<!-- 스토어 -->
+	<!-- 테마 목록 -->
+	<select id="themeList" resultType="itemEntity" parameterType="string">
+		select item_code, item_name, to_char(item_price, '999,999') as item_price, item_sale, item_color, item_src from item 
+		 where substr(item_code, 1, 1) = 'T' 
+		 <if test="#{memEmail} != null">
+		  and item_code not in (select item_code from cart where substr(item_code, 1, 1) = 'T' and mem_email = #{memEmail}) 
+		   and item_code not in (select item_code from buy where substr(item_code, 1, 1) = 'T' and mem_email = #{memEmail}) 
+		 </if>
+		    order by item_code 
+	</select>
+	<!-- 폰트 목록 -->
+	<select id="fontList" resultType="itemEntity">
+		select item_code, item_name, to_char(item_price, '999,999') as item_price, item_sale, to_char(item_price*(1-0.01*item_sale), '999,999') as sale_price, item_src from item where substr(item_code, 1, 1) = 'F' order by item_code 
+	</select>
+	<!-- 장바구니에 담기 -->
+	<delete id="fontDel" parameterType="string">
+		delete from cart where substr(item_code, 1, 1) = 'F' and mem_email = #{memEmail}
+	</delete>
+	<insert id="insertItems" parameterType="map">
+	insert all
+		<foreach collection="list" item="item">
+			 into cart values (#{item}, #{memEmail})
+		</foreach>
+	select * from dual
+	</insert>
+	
+	<!-- 장바구니 -->
+	<!-- 장바구니 목록 -->
+	<select id="cart" resultType="map" parameterType="string">
+		select item_code, item_name, to_char(item_price, '999,999') as item_price_char, item_price from cart join item using (item_code) where mem_email = #{memEmail}
+	</select>
+	<!-- 장바구니 삭제 -->
+	<delete id="cartDel" parameterType="map">
+		delete from cart where mem_email = #{memEmail} and item_code in 
+			<foreach collection="itemCode" item="code" open="(" separator="," close=")">
+				#{code}
+			</foreach>
+	</delete>
+	
+	<!-- 구매내역 -->
+	<!-- 구매내역 목록 -->
+	<select id="buy" resultType="map" parameterType="string">
+		select buy_id, item_name, to_char(item_price, '999,999') as item_price_char, item_price, to_char(buy_date, 'YYYY-MM-DD') as buy_date from buy b join item i on b.item_code = i.item_code where mem_email = #{mem_email} order by buy_id desc
+	</select>
+	<!-- 주문정보 -->
+	<select id="buyInfo" resultType="map">
+		select seq_buy_id.nextval as buy_id, mem_nick, mem_tel from member where mem_email = #{memEmail} 
+	</select>
+	<!-- 구매내역 추가 -->
+	<delete id="beforePay" parameterType="map">
+		delete from cart where mem_email = #{memEmail} and item_code in 
+		<foreach collection="list" item="code" open="(" separator="," close=")">
+			#{code}
+		</foreach>
+	</delete>
+	<insert id="pay" parameterType="map">
+		insert all
+			<foreach collection="list" item="item">
+				into buy values (#{buyId}, default, #{item}, #{memEmail})
+			</foreach>
+		select * from dual
+	</insert>
+	
+</mapper>

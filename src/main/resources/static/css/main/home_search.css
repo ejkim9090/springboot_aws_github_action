@@ -1,0 +1,72 @@
+@charset "UTF-8";
+
+.wrap-body .wrap-area , 
+.wrap-body .area-box{
+	/* 중앙 배치 */
+	width: 960px;
+	margin: 0 auto;
+	/* 중앙 정렬 */
+	align-items: center;
+	text-align: center;
+}
+
+.wrap-body .wrap-search h2{
+	margin: 60px 0 30px 0;
+}
+
+.wrap-body .wrap-search .search{
+	margin-bottom: 60px;
+}
+
+.wrap-body .wrap-search p {
+	font-size: var(--font1);
+	font-family: "IM_Hyemin-Bold";
+	margin: 70px 0 20px 0;
+}
+
+.wrap-body .wrap-search input,
+.wrap-body .wrap-search input:active{
+	height: 30px;
+	width: 600px;
+	border-radius: 8px;
+	border: 0;
+	background-color: var(--color_gray);
+	font-family: "Binggrae";
+	font-size: var(--font4);
+}
+
+.wrap-body .wrap-search .search{
+	position: relative;
+}
+
+.wrap-body .search button{
+	border: 0;
+	background-color: var(--color_gray);
+	position: absolute;
+    top: 20%;
+    right:20%;
+}
+
+.wrap-area .area-box {
+	/* 가로 정렬 */
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 100px;
+}
+
+.area-box li{
+	margin: 20px;
+}
+
+.area_btn img{
+	width: 200px;
+	height: 200px;
+	border-radius: 8px;
+	object-fit: cover;
+}
+
+.description p{
+	margin: 8px 0;
+}
+
+

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link th:href="@{/css/main/home_make.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/main/home_example.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/main/home_search.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/main/home_modal.css}" rel="stylesheet" type="text/css">
+<head th:replace="~{common/header :: head('트립앤트')}">
+</head>
+<script th:line="javascript" th:src="@{/js/main/plan_home.js}" ></script>
+<body>
+
+	<div class="header" th:insert="~{common/header :: wrap-header}"></div>
+	<div class="modal">
+		<div class="modal_popup">
+			<div>
+				<div class="modal-left">
+					<form id="planForm" method="post">
+						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+						<h2>지역을 선택하세요</h2>
+						<select id="selectbox" form="planForm" name="areaCode">
+							<option value="check" disabled selected>--일정을 생성할 지역을 선택하세요--</option>
+							<option th:each="area : *{areaNameList}"
+								th:value="${area?.areaCode}" th:text="${area?.areaName}"></option>
+						</select>
+						<h4></h4>
+						<h3>개미의 여행에 제목을 넣어주세요</h3>
+						<input type="text" name="planTitle"><br>
+					</form>
+					<button type="button" form="planForm" disabled class="keep_btn">일정 계속 만들기</button>
+				</div>
+				<div class="modal-right">
+					<img th:src="@{/images/area/SEOUL.jpg}" alt="서울" id="infoImg">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="wrap-body">
+		<ul class="wrap-make">
+			<li class="make-left">
+				<div class="make_text"
+					style="font-size: var(--font1); font-weight: bolder;">
+					<p>기존에 경험하지 못한 새로운</p>
+					<p>개미의 여행</p>
+				</div>
+				<div class="auth hidden" th:value="${auth}" ></div>
+				<ul class="make-plan" style="font-size: var(--font3); font-weight: bolder;">
+					<li><p style="margin: 20px 20px 0 0;">일정을 생성해볼까요?</p></li>
+					<li><button type="button" class="btn make">일정 만들기</button></li>
+				</ul>
+			</li>
+			<li class="make-img"><img th:src="@{/images/area/SEOUL.jpg}"
+				alt="서울">
+				<div class="make-info">
+					<p style="font-size: var(--font5);">생성된 일정 수</p>
+					<p style="font-size: var(--font3);" th:text="${planCount}"></p>
+					<p style="font-size: var(--font5);">여행자 수</p>
+					<p style="font-size: var(--font3);" th:text="${memCount}"></p>
+				</div></li>
+		</ul>
+		<div class="wrap-example">
+			<div class="wrap-example-content">
+				<ul class="example-content">
+					<li class="example-img"><img th:src="@{/images/area/JEJU.jpg}"
+						alt="제주"></li>
+					<li class="example-right">
+						<h2>여행을 준비하는 개미님은<br>트립앤트의 스케줄링을 통해<br>10시간 이상을 절약하셨어요</h2>
+						<h6>제주여행을 준비하는 개미님은 트립앤트 덕분에 위치, 동선, 영업일, 식사시간 등을<br>고려하며 평균 10시간에 걸쳐 며칠동안 짜야 할 일정 계획을 단 5분만에 만들었어요!</h6>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="wrap-area" th:fragment="warparea">
+			<div class="wrap-search">
+				<h2>어디로 여행을 떠나시나요?</h2>
+				<div class="search">
+					<form id="frm-find" method="post">
+						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+						<input type="text" name="find" placeholder="&nbsp;&nbsp;지역명을 입력하세요">
+						<button type="button" class="btn find">
+							<img class="search-btn" th:src="@{/images/icons/search.png}" alt="찾기">
+						</button>
+					</form>
+				</div>
+			</div>
+			<div class="wrap-areaList" th:replace="~{main/wrap_arealist :: wraparealist}"></div>
+		</div>
+	</div>
+	<div class="footer" th:insert="~{common/footer :: wrap-footer}"></div>
+</body>
+</html>

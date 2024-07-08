@@ -1,0 +1,75 @@
+@charset "UTF-8";
+
+.wrap-main {
+	width: 960px;
+	margin: 120px auto;
+}
+
+.wrap-main * {
+	font-family: 'Binggrae';
+}
+
+.wrap-main .hide {
+	display: none;
+}
+
+.wrap-main .btn {
+	cursor: pointer;
+	font-size: var(--font5);
+	border-radius: 8px;
+	border: 0;
+	padding: 5px 10px;
+	background-color: var(--color_light_gray);
+	width: 150px;
+}
+
+.wrap-main .flex {
+	display: flex;
+}
+
+.wrap-main .flex.center {
+	justify-content: center;
+}
+
+.wrap-main .flex.quit {
+	width: 340px;
+	margin: 0 auto;
+	flex-direction: column;
+	row-gap: 20px;
+	padding: 30px 20px;
+	background-color: #f6f6f6;
+	border-radius: 10px;
+}
+
+.wrap-main .quit.title {
+	font-size: var(--font1);
+	margin-bottom: 20px;
+}
+
+.wrap-main textarea {
+	resize: none;
+	width: 100%;
+	box-sizing: border-box;
+	color: black;
+	background-color: white;
+	font-size: var(--font3);
+}
+
+.wrap-main .inputchk1 {
+	width: 70%;
+}
+
+.wrap-main .inputchk1 input {
+	width: 100%;
+}
+
+.wrap-main .inputchk2 {
+	width: 30%;
+	display: flex;
+	justify-content: center;
+}
+
+.wrap-main .choose {
+	margin-top: 10px;
+	justify-content: space-between;
+}

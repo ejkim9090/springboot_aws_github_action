@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mclass.store.tripant.member.model.repository.MemberRepository">
+	<!-- 로그인/로그아웃 -->
+	<!-- 로그인 -->
+	<select id="login" parameterType="string" resultType="MemberEntity">
+		select mem_email, mem_nick, mem_password, mem_role, mem_enabled, mem_type, mem_join_date, mem_birth, mem_tel from member where mem_email = #{memEmail}
+	</select>
+	<!-- SNS 토큰 -->
+	<update id="updateToken" parameterType="map">
+		update member set
+		<choose>
+			<when test="kakaoToken != null">
+			 mem_token_kakao = #{kakaoToken} 
+			</when>
+			<when test="naverToken != null">
+			 mem_token_naver = #{naverToken} 
+			</when>
+			<otherwise>
+			 mem_token_google = #{googleToken} 
+			</otherwise>
+		</choose>
+		 where mem_email = #{memEmail}
+	</update>
+	<!-- SNS 유형 갱신 -->
+	<update id="updateType" parameterType="map">
+		update member set mem_type = #{memType} where mem_email = #{memEmail}
+	</update>
+	<!-- 토큰 값 불러오기 -->
+	<select id="tokenValue" parameterType="string" resultType="map">
+		select mem_token_kakao, mem_token_naver, mem_token_google from member where mem_email = #{memEmail}
+	</select>
+	<!-- 로그인 기록 -->
+	<insert id="log" parameterType="map">
+		insert into log values(default, #{logIp}, #{memEmail}, #{logTf})
+	</insert>
+	<!-- 휴면 해제 -->
+	<update id="awake" parameterType="string">
+		update member set mem_role = 'ROLE_MEM' where mem_email = #{memEmail}
+	</update>
+	
+	<!-- 회원가입 -->
+	<!-- 회원가입 -->
+	<insert id="join" parameterType="MemberEntity">
+		insert into member (mem_email, mem_nick, mem_password, mem_role, mem_enabled, mem_type, mem_join_date, mem_birth, mem_tel, mem_font_dur, mem_report_num) values 
+		(#{memEmail}, #{memNick}, #{memPassword}, #{memRole}, #{memEnabled}, #{memType}, default, #{memBirth}, #{memTel}, 0, 0)  
+	</insert>
+	<!-- 닉네임 중복 검사 -->
+	<select id="existNick" parameterType="string" resultType="int">
+		select count(*) from member where mem_nick = #{memNick}
+	</select>
+	<!-- 이메일 여부 -->
+	<select id="existEmail" parameterType="string" resultType="int">
+		select count(*) from member where mem_email = #{memEmail}
+	</select>
+	<!-- 비밀번호 재설정 -->
+	<update id="setPwd" parameterType="map">
+		update member set mem_password = #{memPassword} where mem_email = #{memEmail}
+	</update>
+		
+	<!-- 마이페이지 -->
+	<!-- 내 정보 -->
+	<select id="myInfo" resultType="map">
+		select mem_email, mem_nick, mem_type from member where mem_email = #{memEmail}
+	</select>
+	<!-- 닉네임 변경 -->
+	<update id="saveNick" parameterType="map">
+		update member set mem_nick = #{memNick} where mem_email = #{memEmail}
+	</update>
+	<!-- 비밀번호 변경 -->
+	<update id="savePwd" parameterType="map">
+		update member set mem_password = #{memPassword} where mem_email = #{memEmail}
+	</update>
+	<!-- 현재 비밀번호 -->
+	<select id="currPwd" parameterType="string" resultType="string">
+		select mem_password from member where mem_email = #{memEmail}
+	</select>
+	<!-- 회원 탈퇴 -->
+	<delete id="memQuit" parameterType="string">
+		delete from Member where mem_email=#{memEmail}
+	</delete>
+		
+</mapper>

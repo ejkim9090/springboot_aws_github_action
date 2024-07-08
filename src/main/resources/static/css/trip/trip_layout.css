@@ -1,0 +1,58 @@
+@charset "UTF-8";
+.main-wrapper *{
+	font-family: 'Binggrae';
+	line-height: 120%;}
+.swal2-container *{
+	font-family: 'Binggrae';
+	line-height: 120%;}
+/* 모든 이미지에 radius적용 */
+.main-wrapper img{ 
+	object-fit: cover;	
+	border-radius: 8px;}
+.main-wrapper{
+	width: 100%;
+	height:100vh;
+	display: flex;
+    flex-direction: row;
+}
+.main-wrapper .flex{display:flex;border-radius: 8px;}
+.main-wrapper .grid{display: grid;    align-content: center;}
+.main-wrapper .hide{ display: none; }
+.main-wrapper .btn,
+.main-wrapper a{ cursor: pointer; }
+
+.main-wrapper .hfull{ height:100%;}
+.main-wrapper .wfull{ width:100%;}
+.main-wrapper .w250{width:250px;}
+.main-wrapper .w220{width:220px;}
+
+/* 스크롤바 설정 */
+.scrollbar:not(#tab02)::-webkit-scrollbar{
+  	height: 10px;  /* 오른쪽 왼쪽 스크롤바 폭 너비 */
+  	width: 10px;  /* 위 아래 스크롤바 폭 너비 */
+}
+.scrollbar::-webkit-scrollbar-thumb{
+	border-radius: 10px;
+	border: 7px solid var(--color_gray);
+}
+.scrollbar::-webkit-scrollbar-corner {
+	background: transparent;
+}
+/* nav */
+.main-wrapper .nav-wrapper{
+ 	flex-direction : column;
+	justify-content: space-between; 
+	width: 100px;
+	padding : 15px 5px;
+ 	border-right: 1px solid var(--color_light_gray);
+	
+}
+.main-wrapper .logo{
+	margin : 5px 5px 20px 5px;
+	width: 80px;
+}
+.main-wrapper .plan_update,
+.main-wrapper .nav{
+	align-items: center;
+    flex-direction: column;
+}

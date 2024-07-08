@@ -1,0 +1,75 @@
+@charset "UTF-8";
+
+/* 제목 & 기간 스타일 */
+.tab-content #tab01 .plan-title {
+	font-size: var(--font2);
+	font-weight: bold;
+}
+
+.tab-content #tab01 .plan-location {
+	font-size: var(--font3);
+	font-weight: bold;
+	margin: 10px 0;
+}
+
+.tab-content #tab01 h4 {
+	margin-bottom: 20px;
+}
+
+.tab-content #tab01 .plan-timeEx {
+	font-size: var(--font4);
+	margin-bottom: 30px;
+}
+
+/* 기간 선택 */
+.tab-content .wrap-priod  img {
+	width: 15px;
+	height: 15px;
+}
+
+.tab-content .wrap-priod .plan-priod {
+	cursor: pointer;
+	float: left;
+	text-align: center;
+	margin-right: 5px;
+}
+
+/* 시간 선택 */
+.tab-content .wrap-time ul li {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1.5fr 1.5fr;
+	margin-bottom: 5px;
+	text-align: center;
+}
+
+.tab-content .wrap-time ul li div {
+	padding: 5px;
+	width: auto;
+	display: grid;
+}
+
+.tab-content .wrap-time .time-h {
+	border: 1px solid var(--color_gray);
+	background-color: var(--color_light_gray);
+}
+
+/*시간 설정 완료*/
+.tab-content #tab01 .time_btn {
+	margin-top: 20px;
+	width: 100%;
+	height: 40px;
+	font-family: "Binggrae";
+	font-size: var(--font4);
+	background: black;
+	color: white;
+	border: 0;
+	border-radius: 8px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.tab-content #tab01 .time_btn:disabled {
+	background: var(--color_light_gray);
+	color: black;
+	pointer-events: none;
+}

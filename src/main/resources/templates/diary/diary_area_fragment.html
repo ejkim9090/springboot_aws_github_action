@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div class="wrap-diary"  th:fragment="diaryitemlist"> 
+		<!-- 공개글 데이터 가져오기  -->
+		<th:block th:if="${diaries} != null">
+			<th:block th:each="diary :  ${diaries}">
+				<div class="wrap-d-content">
+					<div class="diary-img">
+					<th:block th:if="${diary.diaryImage != null}">
+						<img th:src="${diary.diaryImage}" alt="대표 이미지" class="title-img" >
+					</th:block>
+					<th:block th:if="${diary.diaryImage == null}">
+						<img th:src="@{/images/diary/diary_empty_image.png}" alt="대표 이미지" class="title-img">
+					</th:block>
+					</div>
+					<div class="wrap-content">
+						<div class="diary-content">
+							<div style="flex-grow: 9">
+								<!-- a 태그 대신 연결하는 방법 -->
+								<div th:with="url=@{'/diary/read/' + ${diary.diaryId}}">
+									<p class="diary-title" style="font-size: var(--font3);">
+										<a th:href="${url}" th:text="${diary.diaryTitle}"></a>
+									</p>
+								</div>
+								<div class="diary-date_nickname">
+									<p class="diary-nickname" style="font-size: var(--font5);"
+										th:text="${diary.memNick}"></p>
+									<p class="diary-date" style="font-size: var(--font4);"
+										th:text="${diary.diaryDate}"></p>
+								</div>
+							</div>
+							<div class="diary-like" style="flex-grow: 1">
+								<th:block th:if="${diary.isMyLikes} == 0">
+								<img th:src="@{/images/diary/diary_like_none.png}"
+									 class="like-icon" th:onclick="|btnLikeClickHandler(this,${diary.diaryId});|">
+								</th:block>
+								<th:block th:if="${diary.isMyLikes} == 1">
+								<img th:src="@{/images/diary/diary_like_icon.png}"
+									 class="like-icon" th:onclick="|btnLikeClickHandler(this,${diary.diaryId});|">
+								</th:block>
+							</div>
+						</div>
+						<div>
+							<p class="diary-preview"  
+								th:utext="${diary.diaryPreview}"></p>
+						</div>
+						<div class="diary-views">
+							<p style="font-size: var(--font6);" class="views-t">view</p>
+							<p style="font-size: var(--font6);"	class="diary-diaryViews" th:text="${diary.diaryViews}"></p>
+						</div>
+					</div>
+				</div>
+				
+			</th:block>
+		</th:block>
+	</div>
+
+</body>
+</html>

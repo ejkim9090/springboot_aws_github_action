@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+
+ 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ee1c53ff7e4c7508a382a4c4e7af76e8"></script>
+    <link rel="stylesheet" th:href="@{/css/trip/trip_layout.css}">
+    <link rel="stylesheet" th:href="@{/css/trip/trip_nav.css}">
+    <link rel="stylesheet" th:href="@{/css/trip/trip_schedule.css}">
+    <link rel="stylesheet" th:href="@{/css/trip/trip_spot_info.css}">
+    <link rel="stylesheet" th:href="@{/css/trip/trip_spot_layout.css}">
+    <link rel="stylesheet" th:href="@{/css/trip/trip_edit_spot_info.css}">
+    <link rel="stylesheet" th:href="@{/css/trip/trip_spot_check.css}">
+    <link rel="stylesheet" th:href="@{/css/trip/trip_add_spot.css}">
+    <link rel="stylesheet" th:href="@{/css/trip/tripMap.css}">
+<head th:replace="~{common/header :: head('여행일정')}">
+</head>
+<body>
+	<div class="main-wrapper" th:value="planInfo"><!-- 일정 데이터 가져오기 -->
+		<aside class="nav-wrapper flex">
+			<nav class="nav flex" >
+				<a th:href="@{/}"><img class="logo" src="/images/tripant_logo_text.png"></a>
+				<div class="dayn whole"><a href="#tab0">전체일정</a></div>
+				<!-- 일정 수 만큼 div만들기 -->
+				
+			</nav>
+			<div class="plan_update flex">
+				<button type="button" class="btn hide" id="add-btn" onclick="includeHandler();">담기</button>
+				<button type="button" class="edit btn">편집</button>
+				<button type="button" class="cancel btn" style="display: none;">취소</button>
+				<button type="button" class="save btn" disabled = 'disabled' >저장</button>
+			</div>
+		</aside>
+		<div class="schedule-wrapper flex" th:data-area-code="${planInfo.AREACODE}">
+			<div class="plan-info flex">
+				<div class="plan-title" th:text="${planInfo.TITLE}"></div>
+				<span class="plan-location">[[${planInfo.AREANAME}]]</span><span class="plan-priod">[[${planInfo.STARTDAY}]] ~ [[${planInfo.ENDDAY}]]</span>
+			</div>
+			<!-- 일자별 일정 리스트 -->
+			<div class="list-box flex">
+				<!-- 기존 일정목록 -->
+				<div th:replace="~{trip/trip_tourlist_fragment :: tourlist}"></div><!-- tourlist -->
+				<!-- 장소 추가를 위한 검색 & 장바구니 -->
+				<div th:replace="~{trip/trip_edit_fragment :: spot-check}" > </div><!-- edit-tourlist -->
+				<div th:replace="~{trip/trip_edit_fragment :: spot-basket}" > </div><!-- edit-tourlist -->
+				<!-- 일정 편집부분 -->
+				<div th:replace="~{trip/trip_edit_fragment :: edit-tourlist}" > </div><!-- edit-tourlist -->
+			</div>
+		</div><!-- schedule-wrapper -->
+		
+		<div class="map-wrapper" >
+		    <div id="map"></div>
+		</div>
+	</div>
+<script th:inline="javascript">
+//전역변수 선언
+
+/* 추가한 일정들 객체화하여 좌표 넣기 , points 글로벌변수 선언*/
+let dayPoints = [];  // 일차별 지도 표시할 위치
+let polylines = []; // 폴리라인을 저장할 배열
+
+/*  일정관리를 위한 데이터를 담을 변수 선언 - 세부일정 목록*/
+let  dayEntityList_org ;
+
+//DB에서 받아온 original 정보를 담을 전역변수
+let detailList;
+let detailListEditMode;
+//let dayEntityList = [];
+
+//여행일자별 순서
+var tripIdx ;
+
+//*** 장소 추가에서 사용되는 객체
+class Spot {
+	constructor(id, title, mapx, mapy,img,spotTime) {
+		this.id = id;
+		this.title = title;
+		this.mapx = mapx;
+		this.mapy = mapy;
+		this.img = img;
+		this.spotTime = spotTime;
+	}
+}
+//spot 객체를 담을 배열
+let spotArr = new Array(Spot);
+
+let mapContainer , // 지도를 표시할 div 
+mapOption, //지도 설정
+map, //지도를 담을 전역변수
+bounds  ; // 지도를 재설정할 범위를 가질 전역변수
+
+
+//planId값 url에서 가져오기
+const url = window.location.href;
+const parts = url.split('/'); // Split the URL by '/'
+planId = parts.pop(); // Get the last element of the array
+
+//아래 자료형 참고
+class DayEntity {
+	tripIdx;  /*여행 총 며칠*/
+	
+	travelDate;  // travelDate
+	scheduleStart; // travelStart;  // scheduleStart
+	scheduleEnd; // travelEnd;  // scheduleEnd
+	dayDetailInfoEntity; // Array<SpotEntity> // dayDetailInfoEntity == SpotEntityList
+	
+	//spot2spotTimeList; // Array<number> 이동시간 spotList.length-1만큼  durationMinList
+}
+class SpotEntity {
+	durationMin; // number 이동시간  // durationMin
+	startTime;
+	endTime;
+	
+	travelOrderOrg;
+	
+	travelOrder; /* 하루 내 장소 방문 순서 //  숙소 : null*/  // travelOrder
+	stayTime;  // stayTime
+	title;  // title
+	memo;  // memo
+	lat; // lat
+	lng; // lng
+	
+	address; // address
+	contentid; // contentid
+	firstimage; // firstimage
+}
+
+</script>
+<script th:inline="javascript" th:src="@{/js/trip/loadedHandler.js}"></script>
+<script th:inline="javascript" th:src="@{/js/trip/time.js}"></script>
+<script th:inline="javascript" th:src="@{/js/trip/editHandler.js}"></script>
+<script th:inline="javascript" th:src="@{/js/trip/changeColor.js}"></script>
+<script th:inline="javascript" th:src="@{/js/trip/tripMap.js}"></script>
+<script th:inline="javascript" th:src="@{/js/trip/nav_btn.js}"></script>
+<script th:inline="javascript" th:src="@{/js/trip/trip_spot.js}"></script>
+<script th:inline="javascript" th:src="@{/js/trip/trip_spot_check.js}"></script>
+<script th:inline="javascript" th:src="@{/js/trip/dragAndDrop.js}"></script>
+</body>
+</html>

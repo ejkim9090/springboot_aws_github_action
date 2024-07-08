@@ -1,0 +1,204 @@
+@charset "UTF-8";
+/* 폰트 적용 */
+/* 레이아웃 규격 정하기 */
+.diary-wrap-main {
+	position: relative;
+	width: 960px;
+	height: 100%;
+	margin: auto;
+	padding-top: 3%;
+	padding-bottom: 5%;
+	font-family: 'Binggrae';
+}
+/*지역 태그  */
+.tags {
+	border-radius: 5px 5px 5px;
+	border: 1px solid;
+	padding: 6px;
+}
+
+.area-tab-nav {
+	display: flex;
+	justify-content: space-between;
+	margin-right: 80px;
+	margin-bottom: 24px;
+}
+/* 탭 누르면 글자색 변경되는 효과 */
+.area-tab-nav li a:before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0px;
+	width: 100%;
+	height: 3px;
+}
+
+.area-tab-nav li a {
+	display: block;
+	/* background: #f8f8f8; */
+	/* 	color: #000; */
+	text-decoration: none;
+	font-size: 16px;
+}
+
+.area-tab-nav li a:hover, .area-tab-nav li a.active {
+	/* background: #fff; */
+	color: #fff; /* 글씨 색 흰색  */
+}
+
+/*인기순, 최신순  */
+.diary-wrap-main .d-select {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+/* 옵션 크기 및 둥글게 스타일링  */
+select {
+	width: 100px;
+	height: 30px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px
+}
+
+/*글 리스트 깨짐 가운데 정렬로  */
+.diary-wrap-main .board-search-inner {
+	padding-bottom: 30px;
+	font-size: var(--font5);
+}
+/* 소개 문구 폰트 크기   */
+.diary-introduction {
+	font-size: var(--font2);
+}
+
+/* 글 리스트 */
+.wrap-d-content {
+	display: flex;
+	/* 기본값으로 삭제함. 
+	flex-wrap: nowrap;
+	flex-direction: row; 수평 정렬
+	 */
+	margin-top: 24px;
+	margin-bottom: 24px;
+}
+
+.wrap-content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.wrap-d-content:nth-child(2n) {
+	flex-direction: row-reverse;
+}
+
+.diary-img {
+	width: 350px;
+}
+/* 
+.wrap-d-content:nth-child(2n-1) .diary-like {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.wrap-d-content:nth-child(2n) .diary-like {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+} 
+*/
+/* 제목, 날짜, 닉네임, 미리보기  */
+.diary-title {
+	font-size: var(--font3);
+	margin: 10px;
+}
+
+.diary-date_nickname {
+	display: flex;
+}
+
+.diary-date {
+	font-size: var(--font4);
+	margin: 8px;
+}
+
+.diary-nickname {
+	font-size: var(--font5);
+	margin: 8px;
+}
+
+.diary-preview {
+	font-size: var(--font5);
+	margin: 8px;
+	width: 610px;
+	height: 110px;
+}
+
+/*글 가운데로 넓이 줘서 고정시키기  */
+.diary-content {
+	/* width: 610px; */
+	display: flex;
+}
+/* 버튼 가운데 정렬 */
+.btn-more {
+	display: flex;
+	justify-content: center;
+	padding-top: 45px;
+}
+/* 버튼 깜빡이 호버 기능  */
+.btn-more button {
+	width: 130px;
+	height: 30px;
+	font-family: "Binggrae";
+	font-size: var(--font4);
+	background: black;
+	color: white;
+	border: 0;
+	border-radius: 8px;
+	text-align: center;
+}
+
+.btn-more button:hover {
+	background: var(--color_light_gray);
+	color: black;
+	cursor: pointer;
+}
+/* 좋아요 버튼  */
+.diary-like .like-icon {
+	cursor: pointer;
+	width: 32px; /* 아이콘 크기 조절 */
+	height: 32px;
+	align-content: center;
+}
+/*view 위치 조정  */
+.diary-views {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;;
+	align-items: flex-end;
+}
+
+.diary-diaryViews {
+	margin: 10px;
+}
+
+.diary-like {
+	/* 하트 가운데 정렬하기 */
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.views-t {
+	margin: 10px;
+}
+/* 타이틀 글 이미지   */
+.title-img{
+	width: 330px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+}

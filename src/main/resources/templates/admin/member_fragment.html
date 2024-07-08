@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+
+<div class= "wrap-list" th:fragment="wraplist">
+	<div class="ad-search">
+		<th:block th:if="${memMap!=null and memMap.searchMem != null}">
+		<input class="search" type="text" name="search" placeholder="회원검색"  th:value="${memMap.searchMem}"> 
+		</th:block>
+		<th:block th:if="${memMap==null or memMap.searchMem == null}">
+		<input class="search" type="text" name="search" placeholder="회원검색" > 
+		</th:block>
+		<button type="button" class="btn-search" onclick="searchBtnHandler(this);"><img th:src="@{/images/icons/search.png}" alt="검색"/></button>
+	</div>
+	
+	<div class="ad-content">
+		<ul class="memberlist">
+			<li>	
+				<ul class="col">
+					<li>닉네임</li>
+					<li>이메일</li>
+					<li>가입일자</li>
+					<li>탈퇴일자</li>
+					<li>등급</li>
+					<li>활성화</li>
+					<li></li>
+				</ul>
+			</li>
+						
+			<li id="list">
+				<th:block th:each="mem: ${memMap.memList}">
+					<ul class="col list">
+						<li th:text="${mem.memNick}"></li>
+						<li th:text="${mem.memEmail}"></li>
+						<li th:text="${mem.memJoinDate}"></li>
+						<li th:text="${mem.memQuitDate}"></li>
+						<li th:text="${mem.memRole}"></li>
+						<li th:text="${mem.memEnabled}"></li>
+						<li><button type="button" class="btn info" onclick="ClickHandler();"><h5>편집</h5></button></li>
+					</ul>
+				</th:block>
+							
+			</li>
+		</ul>	
+	</div> 
+	<!-- paging --> 
+		<div style="text-align: center;">
+			<div class="paging_wrap">
+			<th:block th:if="${memMap.totalPageCount > 0}">
+				<div th:if="${memMap.startPageNum > 1}" class="goprepage">
+		            <button type="button" onclick="searchBtnHandler(this);" class="btn gopage" th:data-targetpage="${memMap.startPageNum - 1}">&lt;</button>
+		        </div>
+		        <div th:each="page :  ${#numbers.sequence(memMap.startPageNum, memMap.endPageNum)}">
+			        <div th:if="${memMap.currentPage == page}" class="current_page">
+			            <button type="button" disabled class="btn gopage" th:data-targetpage="${page}" th:text="${page}"></button>
+			        </div>
+			        <div th:if="${memMap.currentPage != page}" class="gopage">
+			            <button type="button" onclick="searchBtnHandler(this);" class="btn gopage" th:data-targetpage="${page}" th:text="${page}"></button>
+			        </div>
+		        </div>
+		        
+		        <div th:if="${memMap.endPageNum < memMap.totalPageCount}">
+		            <button type="button" onclick="searchBtnHandler(this);" th:data-targetpage="${memMap.endPageNum + 1}" class="btn gopage">&gt;</button>
+		        </div>
+		        </th:block>			
+			</div>
+		</div>
+	</div>
+
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/header :: head('스토어')}"></head>
+<link th:href="@{/css/store/home.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/store/aside.css}" rel="stylesheet" type="text/css">
+<script th:src="@{/js/store/home/loadedHandler.js}" type="text/javascript"></script>
+<script th:src="@{/js/store/home/itemNum.js}" type="text/javascript"></script>
+<script th:src="@{/js/store/home/fontModal.js}" type="text/javascript"></script>
+<script th:src="@{/js/store/home/insertItems.js}" type="text/javascript"></script>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<style>
+.wrap-main .origin-price{
+	font-size: var(--font6);
+	color: lightgray;
+	text-decoration: line-through;
+}
+.wrap-main .sale-proportion{
+	font-size: var(--font4);
+	color: green;
+}
+.wrap-main .sale-price{
+	color: orange;
+}
+/* 스크롤바 설정 */
+.list.flex::-webkit-scrollbar{
+     height: 10px;  /* 오른쪽 왼쪽 스크롤바 폭 너비 */
+     width: 10px;  /* 위 아래 스크롤바 폭 너비 */
+}
+.list.flex::-webkit-scrollbar-thumb{
+   border-radius: 10px;
+   border: 7px solid var(--color_gray);
+}
+.list.flex::-webkit-scrollbar-corner {
+   background: transparent;
+}
+</style>
+<script th:inline="javascript">
+// 글꼴 미리보기 창
+function fontSwalHandler(){
+	Swal.fire({
+	  imageUrl: contextPath + "images/store/font_preview.png",
+	  imageAlt: "font preview", 
+	  confirmButtonText: "닫기", 
+	  confirmButtonColor: "#000000" 
+	});
+}
+</script>
+<body>
+	<header class="header" th:replace="~{common/header :: wrap-header}"></header>
+	<div class="wrap-main">
+		<aside th:insert="~{store/aside :: store-aside}"></aside>
+		<div class="flex store">
+			<div class="checked hide"><strong id="itemNum"></strong>개의 상품이 선택되었습니다.</div>
+			<div class="title">테마 <span>(구매하거나 장바구니에 담은 테마는 나오지 않습니다.)</span></div>
+			<div class="explain">공개 여행기를 나만의 색으로 개성을 나타낼 수 있어요!</div>
+			<div class="list flex" th:if="${themeList} != null">
+				<div class="item flex" th:each="theme : ${themeList}">
+					<div class="item pre" th:style="'width: 150px; height: 150px; background: #' + ${theme.itemColor} + '; opacity: 0.2;'"></div>
+					<div class="item explain flex">
+						<div th:text="${theme.itemName}"></div>
+						<div><input type="checkbox" name="theme" th:value="${theme.itemCode}"></div>
+					</div>
+					<div class="item price" th:text="${theme.itemPrice}+'원'"></div>
+				</div>
+			</div>
+			<div class="list flex none" th:if="${themeList} == null">다음에 나올 테마를 기대해주세요!</div>
+			<div class="title">글꼴 <span>(글꼴 상품은 한 개만 담을 수 있습니다.)</span></div>
+			<div class="explain font flex">
+				<div>글꼴은 총 8개가 제공됩니다.</div>
+				<div><button type="button" class="btn font">미리보기</button></div>
+			</div>
+			<div class="list flex" th:if="${fontList} != null">
+				<div class="item flex" th:each="font : ${fontList}">
+					<div class="item pre" th:style="'width: 150px; height: 150px; border-radius: 0; background-size: contain; background-repeat: no-repeat; background-image: url(/'+${font.itemSrc}+');'"></div>
+					<div class="item explain flex">
+						<div th:text="${font.itemName}"></div>
+						<div><input type="radio" name="font" th:value="${font.itemCode}"></div>
+					</div>
+					<div class="item price" th:text="${font.itemPrice}+'원'" th:if="${font.itemSale} == null"></div>
+					<div class="item price flex" th:if="${font.itemSale} != null">
+						<div class="origin-price" th:text="${font.itemPrice}+'원'"></div>
+						<div class="sale-proportion" th:text="${font.itemSale}+'%'"></div>
+						<div class="sale-price" th:text="${font.salePrice}+'원'"></div>
+					</div>
+				</div>
+			</div>
+			<div class="list flex" th:unless="${fontList} != null">상품이 없습니다.</div>
+			<div class="cart"><button type="button" class="btn cart">장바구니에 담기</button></div>
+			<div class="warn">※ 환불/취소는 구매 일자 기준 7일 이내에만 가능합니다.</div>
+		</div>
+	</div>
+	<footer class="footer" th:insert="~{common/footer :: wrap-footer}"></footer>
+</body>
+</html>

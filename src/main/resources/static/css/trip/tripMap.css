@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+/* 지도 */
+.main-wrapper .map-wrapper{
+	/* width: 30%; */
+	 width: 50%;
+}
+.main-wrapper #map{width:100%;height:100%;}
+
+/* 마커 위에 순서 표시 */
+.main-wrapper .custom-marker span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -65%);
+    color: white;
+    font-weight: bold;
+    font-size: 17px; }

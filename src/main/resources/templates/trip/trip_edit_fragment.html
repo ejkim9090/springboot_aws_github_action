@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+	<!-- 주가할 장소 -->
+	<div th:fragment="spot-check" id="tab02" class="hide grid">
+		<div class="spot first grid">
+			<h3>장소 선택</h3>
+			<form id="frm-find-spot">
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+				<input type="text" id="find-spot" name="find-spot" placeholder="&nbsp;장소명을 입력하세요">
+				<button type="button" class="btn find-spot">
+					<img class="search-btn" th:src="@{/images/icons/search.png}" alt="찾기">
+				</button>
+			</form>
+			<ul class="spot-tab-nav">
+				<li><a href="#spot-tab01">관광지</a></li>
+				<li><a href="#spot-tab02">문화시설</a></li>
+				<li><a href="#spot-tab03">쇼핑</a></li>
+				<li><a href="#spot-tab04">음식점</a></li>
+			</ul>
+			<div class="spot-tab-content scrollbar">
+				<div id="spot-tab01">
+					<div class="wrap-spotList" th:replace="~{plan/spot_tab_content :: wrapspotlist}"></div>
+				</div>
+				<div id="spot-tab02">
+					<div class="wrap-spotList" th:replace="~{plan/spot_tab_content :: wrapspotlist}"></div>
+				</div>
+				<div id="spot-tab03">
+					<div class="wrap-spotList" th:replace="~{plan/spot_tab_content :: wrapspotlist}"></div>
+				</div>
+				<div id="spot-tab04">
+					<div class="wrap-spotList" th:replace="~{plan/spot_tab_content :: wrapspotlist}"></div>
+				</div>
+			</div>
+		</div>
+		<div class="spot second flex">
+			<div class="wrap-selected-spot scrollbar">
+				<div class="selected-spot-info">
+					<p class="count-spot">0</p>
+					<p class="time-spot"></p>
+					<p class="reset-spot" onclick="spotResetBtnClickHandler();">장소 선택 초기화</p>
+				</div>
+				<div class="selected-spot-list"></div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 장소바구니 -->
+	<div th:fragment="spot-basket" class="spot-basket hide scrollbar flex " id="spot-basket">
+		<div class="flex a" >
+			<h4>추가할 장소</h4>
+			<button id="add" class="btn" onclick="openSpot();">장소추가</button>
+		</div>
+		<div class="wrap-basket " > 
+		</div> <!-- wrap-basket -->
+	</div>	
+	<!-- edit trip list -->
+	<div th:fragment="edit-tourlist" class="edit-tourlist hide scrollbar flex" id="edit-tourlist">
+		<div class="wrap-detaillist flex" > </div> <!-- wrap-detaillist -->
+	</div>
+</html>
